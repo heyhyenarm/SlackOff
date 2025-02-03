@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <Windows.h>
+#include <wchar.h>
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -152,34 +153,6 @@ enum class ELogCategory
 
 
 ////콘솔 색상 설정
-//const std::string SetColor(int color)
-//{
-//	//출력 모드를 가상 터미널 시퀀스 핸들 모드로 변경
-//	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-//	DWORD dwMode = 0;
-//	dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-//
-//	return ESC "color";
-//}
-
-//Todo: 강사님 코드
-// 색상 열거형.
-enum class Color : unsigned short
-{
-	Red = FOREGROUND_RED,
-	Green = FOREGROUND_GREEN,
-	Blue = FOREGROUND_BLUE,
-	White = Red + Green + Blue,
-};
-// 콘솔 색상 설정 함수.
-inline void SetColor(Color color)
-{
-	SetConsoleTextAttribute(
-		GetStdHandle(STD_OUTPUT_HANDLE),
-		(int)color
-	);
-}
-
 ////로그 출력 창에 띄우기
 //template<typename... T>
 //void Log(ELogCategory category, const char* logTemp, T&&... args)
@@ -252,12 +225,28 @@ void Log(ELogCategory category, const wchar_t* logTemp, T&&... args)
 }
 
 //Todo: 유니코드 파일 출력
-//void LoadFile(const wchar_t* directory)
-//{
-//	//파일 불러오기
-//	FILE* file;
-//	errno_t err;
-//	err = _wfopen_s(&file, directory, L"w+, ccs=UNICODE");
-//}
+inline void LoadFile(const wchar_t* directory, FILE* file)
+{
+	//파일 불러오기
+	errno_t err;
+	err = _wfopen_s(&file, directory, L"rb, ccs=UNICODE");
+	if (err != 0)
+	{
+		wprintf(L"LoadFile Failed\n");
+		return;
+	}
+	else
+	{
+		wprintf(L"LoadFile Success\n");
+		fseek(file, 0, SEEK_END);
+		size_t readSize = ftell(file);
+		rewind(file);
+		wchar_t* buffer = new wchar_t[readSize + 1];
+		size_t bytesRead = fread(buffer, 1, readSize, file);
+		buffer[readSize] = '\0';
+
+		wprintf(&buffer[0]);
+	}
+}
 
 

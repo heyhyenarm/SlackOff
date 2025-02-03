@@ -18,45 +18,45 @@
 
 //가상 터미널 텍스트 색 정의
 //Foreground
-#define VT_FOREGROUND_BLACK L"30m"
-#define VT_FOREGROUND_RED L"31m"
-#define VT_FOREGROUND_GREEN L"32m"
-#define VT_FOREGROUND_YELLOW L"33m"
-#define VT_FOREGROUND_BLUE L"34m"
-#define VT_FOREGROUND_MAGENTA L"35m"
-#define VT_FOREGROUND_CYAN L"36m"
-#define VT_FOREGROUND_WHITE L"37m"
-#define VT_FOREGROUND_EXTENDED L"38m"
-#define VT_FOREGROUND_DEFAULT L"39m"
+#define VT_FOREGROUND_BLACK 30
+#define VT_FOREGROUND_RED 31
+#define VT_FOREGROUND_GREEN 32
+#define VT_FOREGROUND_YELLOW 33
+#define VT_FOREGROUND_BLUE 34
+#define VT_FOREGROUND_MAGENTA 35
+#define VT_FOREGROUND_CYAN 36
+#define VT_FOREGROUND_WHITE 37
+#define VT_FOREGROUND_EXTENDED 38
+#define VT_FOREGROUND_DEFAULT 39
 //Background
-#define VT_BACKGROUND_BLACK L"40m"
-#define VT_BACKGROUND_RED L"41m"
-#define VT_BACKROUND_GREEN L"42m"
-#define VT_BACKGROUND_YELLOW L"43m"
-#define VT_BACKGROUND_BLUE L"44m"
-#define VT_BACKGROUND_MAGENTA L"45m"
-#define VT_BACKGROUND_CYAN L"46m"
-#define VT_BACKGROUND_WHITE L"47m"
-#define VT_BACKGROUND_EXTENDED L"48m"
-#define VT_BACKGROUND_DEFAULT L"49m"
+#define VT_BACKGROUND_BLACK 40
+#define VT_BACKGROUND_RED 41
+#define VT_BACKROUND_GREEN 42
+#define VT_BACKGROUND_YELLOW 43
+#define VT_BACKGROUND_BLUE 44
+#define VT_BACKGROUND_MAGENTA 45
+#define VT_BACKGROUND_CYAN 46
+#define VT_BACKGROUND_WHITE 47
+#define VT_BACKGROUND_EXTENDED 48
+#define VT_BACKGROUND_DEFAULT 49
 //Foreground_Bright
-#define VT_FOREGROUND_BLACK_BRIGHT L"90m"
-#define VT_FOREGROUND_RED_BRIGHT L"91m"
-#define VT_FOREGROUND_GREEN_BRIGHT L"92m"
-#define VT_FOREGROUND_YELLOW_BRIGHT L"93m"
-#define VT_FOREGROUND_BLUE_BRIGHT L"94m"
-#define VT_FOREGROUND_MAGENTA_BRIGHT L"95m"
-#define VT_FOREGROUND_CYAN_BRIGHT L"96m"
-#define VT_FOREGROUND_WHITE_BRIGHT L"97m"
+#define VT_FOREGROUND_BLACK_BRIGHT 90
+#define VT_FOREGROUND_RED_BRIGHT 91
+#define VT_FOREGROUND_GREEN_BRIGHT 92
+#define VT_FOREGROUND_YELLOW_BRIGHT 93
+#define VT_FOREGROUND_BLUE_BRIGHT 94
+#define VT_FOREGROUND_MAGENTA_BRIGHT 95
+#define VT_FOREGROUND_CYAN_BRIGHT 96
+#define VT_FOREGROUND_WHITE_BRIGHT 97
 //Background_Bright
-#define VT_BACKGROUND_BLACK_BRIGHT L"100m"
-#define VT_BACKGROUND_RED_BRIGHT L"101m"
-#define VT_BACKROUND_GREEN_BRIGHT L"102m"
-#define VT_BACKGROUND_YELLOW_BRIGHT L"103m"
-#define VT_BACKGROUND_BLUE_BRIGHT L"104m"
-#define VT_BACKGROUND_MAGENTA_BRIGHT L"105m"
-#define VT_BACKGROUND_CYAN_BRIGHT L"106m"
-#define VT_BACKGROUND_WHITE_BRIGHT L"107m"
+#define VT_BACKGROUND_BLACK_BRIGHT 100
+#define VT_BACKGROUND_RED_BRIGHT 101
+#define VT_BACKROUND_GREEN_BRIGHT 102
+#define VT_BACKGROUND_YELLOW_BRIGHT 103
+#define VT_BACKGROUND_BLUE_BRIGHT 104
+#define VT_BACKGROUND_MAGENTA_BRIGHT 105
+#define VT_BACKGROUND_CYAN_BRIGHT 106
+#define VT_BACKGROUND_WHITE_BRIGHT 107
 
 
 
@@ -180,46 +180,45 @@ inline void SetColor(Color color)
 	);
 }
 
-//로그 출력 창에 띄우기
-template<typename... T>
-void Log(ELogCategory category, const char* logTemp, T&&... args)
-{
-	//출력 모드를 가상 터미널 시퀀스 핸들 모드로 변경
-	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	DWORD dwMode = 0;
-	dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+////로그 출력 창에 띄우기
+//template<typename... T>
+//void Log(ELogCategory category, const char* logTemp, T&&... args)
+//{
+//	//출력 모드를 가상 터미널 시퀀스 핸들 모드로 변경
+//	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+//	DWORD dwMode = 0;
+//	dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+//
+//	SetConsoleMode(hOut, dwMode);
+//
+//	//전달받은 문자열 주소값을 버퍼에 저장
+//	char buffer[1024];
+//	snprintf(buffer, sizeof(buffer), logTemp, args ...);
+//	//std::cout << buffer;
+//
+//	//상세 로그 수준에 따른 출력 변화
+//	//색 변경하기, ESC: \x1b[
+//	switch (category)
+//	{
+//	case(ELogCategory::Logging):
+//		printf_s("%s%d%s", ESC, VT_FOREGROUND_WHITE_BRIGHT, buffer);
+//		//SetColor(Color::White);
+//		break;
+//	case(ELogCategory::Warning):
+//		//std::cout << ESC << VT_FOREGROUND_YELLOW << buffer;
+//		printf_s("%s%d%s", ESC, VT_FOREGROUND_YELLOW, buffer);
+//		//SetColor(Color::Blue);
+//		break;
+//	case(ELogCategory::Error):
+//		//std::cout<< ESC << VT_FOREGROUND_RED << buffer;
+//		printf_s("%s%d%s", ESC, VT_FOREGROUND_RED, buffer);
+//		//SetColor(Color::Red);
+//		break;
+//	}
+//
+//	std::cout << buffer;
+//}
 
-	SetConsoleMode(hOut, dwMode);
-
-	//전달받은 문자열 주소값을 버퍼에 저장
-	char buffer[1024];
-	snprintf(buffer, sizeof(buffer), logTemp, args ...);
-	//std::cout << buffer;
-
-	//상세 로그 수준에 따른 출력 변화
-	//색 변경하기, ESC: \x1b[
-	switch (category)
-	{
-	case(ELogCategory::Logging):
-		printf_s("%s%d%s", ESC, VT_FOREGROUND_WHITE_BRIGHT, buffer);
-		//SetColor(Color::White);
-		break;
-	case(ELogCategory::Warning):
-		//std::cout << ESC << VT_FOREGROUND_YELLOW << buffer;
-		printf_s("%s%d%s", ESC, VT_FOREGROUND_YELLOW, buffer);
-		//SetColor(Color::Blue);
-		break;
-	case(ELogCategory::Error):
-		//std::cout<< ESC << VT_FOREGROUND_RED << buffer;
-		printf_s("%s%d%s", ESC, VT_FOREGROUND_RED, buffer);
-		//SetColor(Color::Red);
-		break;
-	}
-
-	std::cout << buffer;
-}
-
-//Todo: 유니코드 추가하기
 template<typename... T>
 void Log(ELogCategory category, const wchar_t* logTemp, T&&... args)
 {
@@ -231,24 +230,34 @@ void Log(ELogCategory category, const wchar_t* logTemp, T&&... args)
 	//전달받은 문자열 주소값을 버퍼에 저장
 	wchar_t buffer[1024];
 	swprintf(buffer, sizeof(buffer), logTemp, args ...);
-	//std::cout << buffer;
 
+	int color = VT_FOREGROUND_WHITE;
 	//상세 로그 수준에 따른 출력 변화
 	//색 변경하기, ESC: \x1b[
 	switch (category)
 	{
 	case(ELogCategory::Logging):
-		std::wcout << ESC << VT_FOREGROUND_WHITE_BRIGHT << buffer;
+		color = VT_FOREGROUND_WHITE_BRIGHT;
 		break;
 	case(ELogCategory::Warning):
-		std::wcout << ESC << (L"%cm", VT_FOREGROUND_YELLOW) << buffer;
+		color = VT_FOREGROUND_YELLOW;
+		//wprintf(ESC L"%dm%s", VT_FOREGROUND_YELLOW, buffer);
+		//std::wcout << ESC << (L"%dm", VT_FOREGROUND_YELLOW) << buffer;
 		break;
 	case(ELogCategory::Error):
-		//wprintf(L"%s%sm%s", ESC, VT_FOREGROUND_RED, buffer);
-		std::wcout << ESC << (L"%c", VT_FOREGROUND_RED) << buffer;
+		color = VT_FOREGROUND_RED;
 		break;
 	}
+	wprintf(ESC L"%dm%s", color, buffer);
 }
 
+//Todo: 유니코드 파일 출력
+//void LoadFile(const wchar_t* directory)
+//{
+//	//파일 불러오기
+//	FILE* file;
+//	errno_t err;
+//	err = _wfopen_s(&file, directory, L"w+, ccs=UNICODE");
+//}
 
 

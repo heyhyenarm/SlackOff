@@ -238,14 +238,15 @@ inline void LoadFile(const wchar_t* directory, FILE* file)
 	else
 	{
 		wprintf(L"LoadFile Success\n");
-		fseek(file, 0, SEEK_END);
-		size_t readSize = ftell(file);
-		rewind(file);
-		wchar_t* buffer = new wchar_t[readSize + 1];
-		size_t bytesRead = fread(buffer, 1, readSize, file);
-		buffer[readSize] = '\0';
+		//Todo: 읽어오기.
+		//fseek(file, 0, SEEK_END);
+		//size_t readSize = ftell(file);
+		//rewind(file);
+		//wchar_t* buffer = new wchar_t[readSize + 1];
+		//size_t bytesRead = fread(buffer, 1, readSize, file);
+		//buffer[readSize] = '\0';
 
-		wprintf(&buffer[0]);
+		//wprintf(&buffer[0]);
 	}
 }
 

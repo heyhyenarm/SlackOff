@@ -60,6 +60,15 @@
 #define VT_BACKGROUND_WHITE_BRIGHT 107
 
 
+enum class Color : unsigned short
+{
+	Red = VT_FOREGROUND_RED,
+	Green = VT_FOREGROUND_GREEN,
+	Blue = VT_FOREGROUND_BLUE,
+	White = VT_FOREGROUND_WHITE,
+};
+
+
 
 //키보드 입력 
 

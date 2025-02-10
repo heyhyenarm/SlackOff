@@ -10,15 +10,18 @@ int main()
 	//@Test.
 	//Clock* clock = new Clock();
 	//clock->StartClock();
-	Log(ELogCategory::Warning, TEXT("aaaaa\r\n"));
+	//Log(ELogCategory::Warning, TEXT("aaaaa\r\n"));
 
 	SetConsoleOutputCP(CP_UTF8);
 
 	setlocale(LC_ALL, "");
+	
+	std::wcout << L"▒\n";
+	std::wcout << L"\x2592";
 	//@Test: Asset 폴더의 txt_map.txt 불러오기. 
-	FILE* file = nullptr;
-	std::wstring fileString = LoadFile(L"../Assets/txt_map.txt", file);
-	std::wcout << fileString;
+	//FILE* file = nullptr;
+	//std::wstring fileString = LoadFile(L"../Assets/txt_map.txt", file);
+	//std::wcout << fileString;
 
 	//@Test.
 	//clock->StopClock();

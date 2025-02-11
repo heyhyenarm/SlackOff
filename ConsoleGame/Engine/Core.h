@@ -12,9 +12,9 @@
 #include <crtdbg.h>
 
 
-#ifdef ENGINE_EXPORTS	//ENGINE_EXPORTS 전처리기 정의가 추가되어있다면 ENGINE_API 정의를 DLL 내보내기로 선언
+#ifdef ENGINE_EXPORTS	//ENGINE_EXPORTS 전처리기 정의가 추가되어있다면 ENGINE_API 정의를 DLL 내보내기로 선언.
 #define ENGINE_API __declspec( dllexport )
-#else	//ENGINE_EXPORTS 전처리기 정의가 추가되어있지 않다면 ENGINE_API 정의를 DLL 가져오기로 선언
+#else	//ENGINE_EXPORTS 전처리기 정의가 추가되어있지 않다면 ENGINE_API 정의를 DLL 가져오기로 선언.
 #define ENGINE_API __declspec( dllimport )
 #endif
 
@@ -73,7 +73,7 @@ enum class Color : unsigned short
 
 
 
-//키보드 입력 
+//키보드 입력 .
 
 /*
  * Virtual Keys, Standard Set
@@ -149,14 +149,14 @@ enum class Color : unsigned short
 
 
 
-//메모리 누수를 검사하여 출력 창에 띄우기
+//메모리 누수를 검사하여 출력 창에 띄우기.
 inline void CheckMemoryLeak()
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 }
 
-//로그 레벨 분류
-enum class ELogCategory
+//로그 레벨 분류. 
+enum class LogCategoryType
 {
 	Logging,
 	Warning,
@@ -164,24 +164,24 @@ enum class ELogCategory
 };
 
 
-////콘솔 색상 설정
-////로그 출력 창에 띄우기
+////콘솔 색상 설정.
+////로그 출력 창에 띄우기.
 //template<typename... T>
 //void Log(ELogCategory category, const char* logTemp, T&&... args)
 //{
-//	//출력 모드를 가상 터미널 시퀀스 핸들 모드로 변경
+//	//출력 모드를 가상 터미널 시퀀스 핸들 모드로 변경.
 //	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 //	DWORD dwMode = 0;
 //	dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 //
 //	SetConsoleMode(hOut, dwMode);
 //
-//	//전달받은 문자열 주소값을 버퍼에 저장
+//	//전달받은 문자열 주소값을 버퍼에 저장.
 //	char buffer[1024];
 //	snprintf(buffer, sizeof(buffer), logTemp, args ...);
 //	//std::cout << buffer;
 //
-//	//상세 로그 수준에 따른 출력 변화
+//	//상세 로그 수준에 따른 출력 변화.
 //	//색 변경하기, ESC: \x1b[
 //	switch (category)
 //	{
@@ -205,31 +205,31 @@ enum class ELogCategory
 //}
 
 template<typename... T>
-void Log(ELogCategory category, const wchar_t* logTemp, T&&... args)
+void Log(LogCategoryType category, const wchar_t* logTemp, T&&... args)
 {
-	//출력 모드를 가상 터미널 시퀀스 핸들 모드로 변경
+	//출력 모드를 가상 터미널 시퀀스 핸들 모드로 변경.
 	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	DWORD dwMode = 0;
 	dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
 
-	//전달받은 문자열 주소값을 버퍼에 저장
+	//전달받은 문자열 주소값을 버퍼에 저장.
 	wchar_t buffer[1024];
 	swprintf(buffer, sizeof(buffer)*sizeof(_TCHAR), logTemp, args ...);
 
 	int color = VT_FOREGROUND_WHITE;
-	//상세 로그 수준에 따른 출력 변화
+	//상세 로그 수준에 따른 출력 변화.
 	//색 변경하기, ESC: \x1b[
 	switch (category)
 	{
-	case(ELogCategory::Logging):
+	case(LogCategoryType::Logging):
 		color = VT_FOREGROUND_WHITE_BRIGHT;
 		break;
-	case(ELogCategory::Warning):
+	case(LogCategoryType::Warning):
 		color = VT_FOREGROUND_YELLOW;
 		//wprintf(ESC L"%dm%s", VT_FOREGROUND_YELLOW, buffer);
 		//std::wcout << ESC << (L"%dm", VT_FOREGROUND_YELLOW) << buffer;
 		break;
-	case(ELogCategory::Error):
+	case(LogCategoryType::Error):
 		color = VT_FOREGROUND_RED;
 		break;
 	}
@@ -241,7 +241,7 @@ inline std::wstring LoadFile(const std::wstring directory, FILE* file)
 	//SetConsoleOutputCP(CP_UTF8);
 	//std::locale::global(std::locale(""));
 
-	//파일 불러오기
+	//파일 불러오기.
 	errno_t err;
 	err = _wfopen_s(&file, directory.c_str(), TEXT("rb, ccs=UTF-8"));
 	if (err != 0)

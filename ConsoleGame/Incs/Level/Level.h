@@ -10,7 +10,7 @@ class ENGINE_API Level : public RTTI
 	RTTI_DECLARATIONS(Level, RTTI)
 
 public:
-	Level();
+	explicit Level();
 	virtual ~Level();
 
 	void AddActor(Actor* newActor);
@@ -18,8 +18,11 @@ public:
 	// 삭제 요청이 된 액터를 정리하는 함수.
 	void ProcessAddedAndDestroyedActor();
 
+	//프레임 업데이트. 
 	virtual void Update(float deltaTime);
+	//콘솔 화면에 그리기. 
 	virtual void Draw();
+	//Todo: 레벨 준비 완료 콜백. 
 
 protected:
 

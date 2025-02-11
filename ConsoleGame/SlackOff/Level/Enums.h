@@ -6,4 +6,5 @@ enum class LevelType
 	LobbyLevel,
 	GameLevel,
 	EndingLevel,
+	LoadingLevel,
 };

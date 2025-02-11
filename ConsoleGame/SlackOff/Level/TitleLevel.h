@@ -6,7 +6,9 @@
 class TitleLevel : public Level
 {
 	RTTI_DECLARATIONS(TitleLevel, Level)
+
 public:
+	explicit TitleLevel(std::wstring titleImage);
 	explicit TitleLevel(std::wstring directory, FILE* file);
 	~TitleLevel();
 

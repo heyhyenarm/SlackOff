@@ -183,7 +183,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Level\EndingLevel.cpp" />
     <ClCompile Include="Level\Game.cpp" />
+    <ClCompile Include="Level\GameLevel.cpp" />
+    <ClCompile Include="Level\LoadingLevel.cpp" />
+    <ClCompile Include="Level\LobbyLevel.cpp" />
     <ClCompile Include="Level\TitleLevel.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
@@ -193,6 +197,7 @@
     <ClInclude Include="Level\Game.h" />
     <ClInclude Include="Level\GameLevel.h" />
     <ClInclude Include="Level\LobbyLevel.h" />
+    <ClInclude Include="Level\LoadingLevel.h" />
     <ClInclude Include="Level\TitleLevel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -263,11 +263,14 @@ Engine& Engine::Get()
 
 void Engine::ProcessInput()
 {
+	//키보드 입력 처리. 
 	for (int ix = 0; ix < 255; ++ix)
 	{
 		//혜림: 이전에 눌렸지만, 현재 눌리지 않은 상태도 false로 반환하기 위해 비트연산. 비트연산 하지 않으면 true로 반환하기 때문.
 		keyState[ix].isKeyDown = (GetAsyncKeyState(ix) & 0x8000) ? true : false;
 	}
+
+	//Todo: 마우스 입력 처리. 
 }
 
 void Engine::Update(float deltaTime)

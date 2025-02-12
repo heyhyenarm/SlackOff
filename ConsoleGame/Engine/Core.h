@@ -148,6 +148,18 @@ enum class Color : unsigned short
 #define VK_HELP           0x2F
 
 
+//마우스 이벤트. 
+#define WM_MOUSEFIRST                   0x0200
+#define WM_MOUSEMOVE                    0x0200
+#define WM_LBUTTONDOWN                  0x0201
+#define WM_LBUTTONUP                    0x0202
+#define WM_LBUTTONDBLCLK                0x0203
+#define WM_RBUTTONDOWN                  0x0204
+#define WM_RBUTTONUP                    0x0205
+#define WM_RBUTTONDBLCLK                0x0206
+#define WM_MBUTTONDOWN                  0x0207
+#define WM_MBUTTONUP                    0x0208
+#define WM_MBUTTONDBLCLK                0x0209
 
 //메모리 누수를 검사하여 출력 창에 띄우기.
 inline void CheckMemoryLeak()
@@ -234,6 +246,11 @@ void Log(LogCategoryType category, const wchar_t* logTemp, T&&... args)
 		break;
 	}
 	wprintf(ESC TEXT("%dm%s"), color, buffer);
+}
+
+inline void ClearLogLine(const char* emptyBuffer)
+{
+	printf(emptyBuffer);
 }
 
 inline std::wstring LoadFile(const std::wstring directory, FILE* file)

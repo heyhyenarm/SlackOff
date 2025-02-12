@@ -52,9 +52,13 @@ public:
 	void SetTargetFrameRate(float targetFrameRate);
 
 	// 입력 관련 함수.
+	// 키보드. 
 	bool GetKey(int key);
 	bool GetKeyDown(int key);
 	bool GetKeyUp(int key);
+
+	// Get emptyStringBuffer. 
+	inline const char* GetEmptyBuffer() { return emptyStringBuffer; }
 
 	// 엔진 종료 함수.
 	void QuitGame();
@@ -85,6 +89,8 @@ protected:
 
 	// 키 상태를 저장하는 배열.
 	KeyState keyState[255];
+	//마우스 상태 저장
+	bool isMouseClicked = false;
 
 	// 싱글톤 구현을 위한 전역 변수 선언.
 	static Engine* instance;

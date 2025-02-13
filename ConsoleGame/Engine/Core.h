@@ -308,4 +308,6 @@ inline std::wstring Split(const std::wstring str, const std::wstring separator)
 		//다음 토큰 가져오기. 
 		token = wcstok_s(nullptr, separator.c_str(), &context);
 	}
+
+	delete string;
 }

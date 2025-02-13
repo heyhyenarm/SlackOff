@@ -289,3 +289,23 @@ inline std::wstring LoadFile(const std::wstring directory, FILE* file)
 }
 
 
+// 스트링 파서. 
+inline std::wstring Split(const std::wstring str, const std::wstring separator)
+{
+	//문자열 복사. 
+	int size = (int)sizeof(str);
+	wchar_t* string = new wchar_t[size];
+	//wcscpy(string, str.c_str());
+	wcscpy_s(string, size, str.c_str());
+
+	wchar_t* token;
+	wchar_t* context = new wchar_t[(int)sizeof(str)] {};
+	token = wcstok_s(string, separator.c_str(), &context);
+	while (token != nullptr)
+	{
+		std::wcout << token;
+
+		//다음 토큰 가져오기. 
+		token = wcstok_s(nullptr, separator.c_str(), &context);
+	}
+}

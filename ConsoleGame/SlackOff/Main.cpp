@@ -8,7 +8,7 @@ int main()
 {
 	CheckMemoryLeak();
 	
-	//@Test.
+	//@Test. 완료. 
 	//Clock* clock = new Clock();
 	//clock->StartClock();
 	//Log(ELogCategory::Warning, TEXT("aaaaa\r\n"));
@@ -27,7 +27,7 @@ int main()
 	game.Run();
 
 	
-	//@Test: 유니코드 출력.
+	//@Test: 유니코드 출력. 완료. 
 	//std::wcout << L"▒\n";
 	//std::wcout << L"\x2592";
 	//@Test: Asset 폴더의 txt_map.txt 불러오기. 
@@ -39,4 +39,7 @@ int main()
 	//clock->StopClock();
 	//std::cout << clock->GetDurationMSeconds();
 	//std::cin.get();
+
+	//@Test: Split(). 완료. 
+	//std::wstring splitString = Split(TEXT("asfje     ivn\ns gas \nas ww\n"), TEXT(" \n"));
 }

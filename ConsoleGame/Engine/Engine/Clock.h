@@ -8,6 +8,7 @@ class Clock
 {
 public:
 	explicit Clock();
+	explicit Clock(int finish);
 	~Clock() = default;
 
 	inline void StartClock() { start = clock(); };

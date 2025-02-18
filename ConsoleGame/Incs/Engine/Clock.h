@@ -8,8 +8,8 @@ class Clock
 {
 public:
 	explicit Clock();
-	explicit Clock(int finish);
-	~Clock() = default;
+	//explicit Clock(int finish);
+	virtual ~Clock() = default;
 
 	inline void StartClock() { start = clock(); };
 	inline void StopClock() { finish = clock(); };

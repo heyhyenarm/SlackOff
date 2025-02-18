@@ -200,6 +200,7 @@ xcopy $(OutDir)\*.lib $(SolutionDir)\Lib\ /e /y</Command>
     <ClInclude Include="Actor\TransformComponent.h" />
     <ClInclude Include="Engine\Clock.h" />
     <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\Timer.h" />
     <ClInclude Include="Level\Level.h" />
     <ClInclude Include="Math\Vector2.h" />
     <ClInclude Include="Core.h" />

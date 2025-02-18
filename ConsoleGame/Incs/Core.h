@@ -309,5 +309,5 @@ inline std::wstring Split(const std::wstring str, const std::wstring separator)
 		token = wcstok_s(nullptr, separator.c_str(), &context);
 	}
 
-	delete string;
+	//delete string;
 }

@@ -4,7 +4,7 @@
 class TransformComponent
 {
 public:
-	virtual void SetTransform() = 0;
+	virtual void SetTransform(Vector2 vector) = 0;
 	virtual Vector2 GetTransform() = 0;
 
 protected:

@@ -20,8 +20,17 @@ public:
 	virtual void Update(float delatTime);
 	virtual void Draw();
 
-	inline virtual void SetPosition(const Vector2& newPosition) { position = newPosition; };
-	inline Vector2 GetPosition() const { return position; };
+	// ImageComponent. 
+	virtual void SetImage(const std::string image = "") { ImageComponent::image = image; }
+	virtual void SetColor(Color color) { ImageComponent::color = color; }
+	virtual std::string GetImage() { return ImageComponent::image; }
+
+	// TransformComponent. 
+	virtual void SetTransform(Vector2 vector) { TransformComponent::x = vector.x, TransformComponent::y = vector.y; }
+	virtual Vector2 GetTransform() { return Vector2(TransformComponent::x, TransformComponent::y); }
+
+	inline virtual void SetPosition(const Vector2& newPosition) { position = newPosition; }
+	inline Vector2 GetPosition() const { return position; }
 
 	inline bool IsAcive() const { return isActive && !isExpired; }
 	inline void SetActive(bool active) { isActive = active; }

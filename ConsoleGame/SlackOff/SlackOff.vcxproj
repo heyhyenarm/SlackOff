@@ -183,6 +183,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor\Hero.cpp" />
     <ClCompile Include="Level\EndingLevel.cpp" />
     <ClCompile Include="Level\Game.cpp" />
     <ClCompile Include="Level\GameLevel.cpp" />
@@ -192,6 +193,8 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor\Data.h" />
+    <ClInclude Include="Actor\Hero.h" />
     <ClInclude Include="Level\EndingLevel.h" />
     <ClInclude Include="Level\Enums.h" />
     <ClInclude Include="Level\Game.h" />

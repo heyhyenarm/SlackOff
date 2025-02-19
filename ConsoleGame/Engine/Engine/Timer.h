@@ -1,23 +1,37 @@
 #pragma once
 
-#include "Clock.h"
+#include "Core.h"
 
-class Timer : public Clock
+//초시계 클래스
+class ENGINE_API Timer
 {
 public:
+	//생성자에서 타이머의 목표 시간 설정
 	Timer(float targetTime);
-	~Timer() = default;
+
+	//타이머 업데이트
+	void Update(float deltaTime);
+
+	//타이머 초기화
+	void Reset();
+
+	//타이머 일시 정지
+	bool TogglePause();
+
+	//타이머가 목표 시간을 경과했는지 확인
+	inline bool IsTimeOut() const { return elapsedTime >= targetTime; }
+
+	//목표시간을 변경할 때 사용할 Setter
+	inline void SetTime(float targetTime) { this->targetTime = targetTime; }
+	inline float GetTime() { return elapsedTime; }
 
 private:
-	inline float IsTimeOut() { return (float)Clock::GetDurationSeconds() >= targetTime; }
+	//경과 시간
+	float elapsedTime = 0.0f;
 
-private:
-	float targetTime = 0;
+	//목표 시간
+	float targetTime = 0.0f;
+
+	//타이머 일시정지
+	bool isTimerPause = false;
 };
-
-Timer::Timer(float targetTime)
-	: Clock(), targetTime(targetTime)
-{
-
-}
-

@@ -16,12 +16,12 @@ LobbyLevel::~LobbyLevel()
 
 void LobbyLevel::Init()
 {
-	menuItems.push_back(new MenuItem(MenuType::Messanger, "Messanger", []() { Log(LogCategoryType::Logging, L"Messanger");}));
-	menuItems.push_back(new MenuItem(MenuType::Game, "Game", []() { Game::Get().LoadLevel(LevelType::GameLevel); }));
-	menuItems.push_back(new MenuItem(MenuType::Gallery, "Gallery", []() { Log(LogCategoryType::Logging, L"Gallery"); }));
-	menuItems.push_back(new MenuItem(MenuType::Setting, "Setting", []() { Log(LogCategoryType::Logging, L"Setting"); }));
-	menuItems.push_back(new MenuItem(MenuType::TrashBox, "TrashBox", []() { Log(LogCategoryType::Logging, L"TrashBox"); }));
-	menuItems.push_back(new MenuItem(MenuType::Exit, "Exit", []() { Game::Get().LoadLevel(LevelType::TitleLevel); }));
+	menuItems.push_back(new MenuItem(MenuType::Messanger, L"Messanger", []() { Log(LogCategoryType::Logging, L"Messanger");}));
+	menuItems.push_back(new MenuItem(MenuType::Game, L"Game", []() { Game::Get().LoadLevel(LevelType::GameLevel); }));
+	menuItems.push_back(new MenuItem(MenuType::Gallery, L"Gallery", []() { Log(LogCategoryType::Logging, L"Gallery"); }));
+	menuItems.push_back(new MenuItem(MenuType::Setting, L"Setting", []() { Log(LogCategoryType::Logging, L"Setting"); }));
+	menuItems.push_back(new MenuItem(MenuType::TrashBox, L"TrashBox", []() { Log(LogCategoryType::Logging, L"TrashBox"); }));
+	menuItems.push_back(new MenuItem(MenuType::Exit, L"Exit", []() { Game::Get().LoadLevel(LevelType::TitleLevel); }));
 	menuCount = menuItems.size();
 }
 
@@ -35,12 +35,12 @@ void LobbyLevel::Update(float deltaTime)
 	// 왼쪽 화살표 눌렀을 경우, 왼쪽 메뉴로 이동하기. 
 	if (Engine::Get().GetKeyDown(VK_LEFT))
 	{
-		currentMenu = (currentMenu - 1 + menuCount) % menuCount;
+		currentMenuIndex = (currentMenuIndex - 1 + menuCount) % menuCount;
 	}
 	// 오른쪽 화살표 눌렀을 경우, 오른쪽 메뉴로 이동하기. 
 	if (Engine::Get().GetKeyDown(VK_RIGHT))
 	{
-		currentMenu = (currentMenu + 1 + menuCount) % menuCount;
+		currentMenuIndex = (currentMenuIndex + 1 + menuCount) % menuCount;
 	}
 
 	
@@ -48,37 +48,7 @@ void LobbyLevel::Update(float deltaTime)
 	// 마우스 입력 시 게임 레벨 불러오기. 
 	if (Engine::Get().GetKeyDown(VK_SPACE))
 	{
-		//// 현재 선택한 메뉴에 맞는 기능 불러오기. 
-		//switch (selectedMenuItem->menuType)
-		//{
-		//	case MenuType::Gallery:
-		//	{
-		//		// Todo: 앨범 구현하기. 
-		//		std::cout << "Load Gallery";
-		//	}break;
-		//	case MenuType::Game:
-		//	{
-		//		// 게임 레벨로 이동하기. 
-		//		Game::Get().LoadLevel(LevelType::GameLevel);
-		//	}break;
-		//	case MenuType::Setting:
-		//	{
-		//		// Todo: 환경 설정 구현하기. 
-		//		std::cout << "Load Setting";
-
-		//	}break;
-		//	case MenuType::TrashBox:
-		//	{
-		//		// Todo: 쓰레기통 구현하기. 
-		//		std::cout << "Load TrashBox";
-
-		//	}break;
-		//	case MenuType::Exit:
-		//	{
-		//		// 타이틀로 돌아가기. 
-		//		Game::Get().LoadLevel(LevelType::TitleLevel);
-		//	}break;
-		//}
+		menuItems[currentMenuIndex]->onSelected();
 	}
 }
 
@@ -94,7 +64,8 @@ void LobbyLevel::Draw()
 	for (int i = 0; i < menuCount; ++i)
 	{
 		// Todo: char/wchar_t 해결하기. 
-		Log(i == currentMenu ? LogCategoryType::Warning : LogCategoryType::Logging, L"%s\n", menuItems[i]->menuText);
+		Log(i == currentMenuIndex ? LogCategoryType::Warning : LogCategoryType::Logging, L" %s ", menuItems[i]->menuText);
+
 	}
 
 

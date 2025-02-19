@@ -9,11 +9,15 @@
 
 #include <time.h>
 
+#define SCREEN_X 30
+#define SCREEN_Y 20
+#define TITLE "SLACK-OFF"
+
 // 스태틱 변수 초기화.
 Engine* Engine::instance = nullptr;
 
 Engine::Engine()
-	: quit(false), mainLevel(nullptr), screenSize(40, 25)
+	: quit(false), mainLevel(nullptr), screenSize(SCREEN_X, SCREEN_Y)
 {
 	// 랜덤 시드 설정.
 	srand((unsigned int)time(nullptr));
@@ -23,6 +27,11 @@ Engine::Engine()
 
 	// 기본 타겟 프레임 속도 설정.
 	SetTargetFrameRate(60.0f);
+
+	// 콘솔 크기, 제목 설정. 
+	char command[100] = {};
+	sprintf_s(command, "mode con: cols=%d lines=%d | title %s", SCREEN_X, SCREEN_Y, TITLE);
+	system(command);
 
 	// 화면 지울 때 사용할 버퍼 초기화.
 	// 1. 버퍼 크기 할당.
@@ -232,6 +241,11 @@ void Engine::SetTargetFrameRate(float targetFrameRate)
 {
 	this->targetFrameRate = targetFrameRate;
 	targetOneFrameTime = 1.0f / targetFrameRate;
+}
+
+void Engine::ClearScreen()
+{
+	Clear();
 }
 
 bool Engine::GetKey(int key)

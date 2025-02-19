@@ -17,12 +17,12 @@ struct MenuItem
 {
 	using OnSelected = void (*)();
 
-	MenuItem(MenuType menuType, const char* text, OnSelected onSelected)
+	MenuItem(MenuType menuType, const wchar_t* text, OnSelected onSelected)
 		: menuType(menuType)
 	{
-		size_t length = strlen(text);
-		menuText = new char[length + 1];
-		strcpy_s(menuText, length + 1, text);
+		size_t length = wcslen(text);
+		menuText = new wchar_t[length + 1];
+		wcscpy_s(menuText, length + 1, text);
 
 		this->onSelected = onSelected;
 	}
@@ -33,7 +33,7 @@ struct MenuItem
 	}
 
 	MenuType menuType;
-	char* menuText;
+	wchar_t* menuText;
 	OnSelected onSelected;
 };
 
@@ -57,14 +57,8 @@ private:
 	std::vector<MenuItem*> menuItems;
 
 	int menuCount = 0;
-	int currentMenu = 0;
-	// 현재 메뉴 아이템. 
-	MenuItem* nowMenuItem;
-	// 선택한 메뉴 아이템. 
-	MenuItem* selectedMenuItem;
+	int currentMenuIndex = 0;
 
 	Color selectedColor = Color::Green;
 	Color unselectedColor = Color::White;
-
-	//MenuType selectedMenuType = MenuType::Game;
 };

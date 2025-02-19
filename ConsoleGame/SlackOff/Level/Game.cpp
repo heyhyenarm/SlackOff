@@ -34,6 +34,8 @@ Game::~Game()
 
 void Game::LoadLevel(LevelType levelType)
 {
+	Engine::Get().ClearScreen();
+
 	//레벨 타입 판별. 
 	switch(levelType)
 	{

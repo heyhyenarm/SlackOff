@@ -51,6 +51,9 @@ public:
 	// 타겟 프레임 속도 설정 함수.
 	void SetTargetFrameRate(float targetFrameRate);
 
+	// 화면 지우기 함수. 
+	void ClearScreen();
+
 	// 입력 관련 함수.
 	// 키보드. 
 	bool GetKey(int key);

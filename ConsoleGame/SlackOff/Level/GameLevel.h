@@ -2,8 +2,10 @@
 
 #include "Level/Level.h"
 #include "Actor/Hero.h"
+#include <vector>
 
-#define AUTO_TIME 10
+#define AUTO_TIME 5
+#define MAX_LOG 5
 
 class GameLevel : public Level
 {
@@ -22,10 +24,10 @@ private:
 	void Start();
 
 	// 플레이어 입력 요청 대기. 
-	void RequestPlayerInput();
+	//void RequestPlayerInput();
 
 	// 플레이어 입력 이벤트. 
-	bool PlayerInputLog(std::wstring input);
+	bool PlayerInputLog(std::wstring input, std::wstring* outValue);
 
 	// 주인공 스크립트 출력. 
 	void PrintScriptHero();
@@ -35,13 +37,21 @@ private:
 
 	// 플레이어 명령어 입력 프로세스. 
 	void PlayerCommandProcess();
+
+	// 로그 관리 프로세스. 
+	void ManageSavedLog(std::wstring& log);
+
 private:
 	std::wstring image;
-	class Clock* autoClock;
+	class Timer* autoTimer;
 	int autoTime = 10;
 
 	bool isWaitingPlayer = false;
 
 	// 주인공 추가. 
 	Hero* hero;
+
+	// Todo: Queue로 바꾸기. 
+	// 로그 저장 리스트. 
+	std::vector<std::wstring> savedLogs;
 };

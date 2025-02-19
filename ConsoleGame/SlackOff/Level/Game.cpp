@@ -17,11 +17,11 @@ Game::Game()
 
 	//레벨들 동적 생성해두기.
 	//Todo: 임시 이미지 바꾸기. 
-	titleLevel = new TitleLevel(TEXT("title image. Press Spacebar."));
-	lobbyLevel = new LobbyLevel(TEXT("lobby image. Press Spacebar. "));
-	gameLevel = new GameLevel(TEXT("game image. Press Spacebar. "));
-	endingLevel = new EndingLevel(TEXT("ending image. Press Spacebar. "));
-	loadingLevel = new LoadingLevel(TEXT("loading image. Press Spacebar. "));
+	titleLevel = new TitleLevel(TEXT("title image. Press Spacebar.\n"));
+	lobbyLevel = new LobbyLevel(TEXT("lobby image. Press Spacebar.\n"));
+	gameLevel = new GameLevel(TEXT("game image. Press Spacebar.\n"));
+	endingLevel = new EndingLevel(TEXT("ending image. Press Spacebar.\n"));
+	loadingLevel = new LoadingLevel(TEXT("loading image. Press Spacebar.\n"));
 }
 
 Game::~Game()

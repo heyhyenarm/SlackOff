@@ -28,10 +28,10 @@ Engine::Engine()
 	// 기본 타겟 프레임 속도 설정.
 	SetTargetFrameRate(60.0f);
 
-	// 콘솔 크기, 제목 설정. 
-	char command[100] = {};
-	sprintf_s(command, "mode con: cols=%d lines=%d | title %s", SCREEN_X, SCREEN_Y, TITLE);
-	system(command);
+	// Todo: 콘솔 크기, 제목 설정. 
+	//char command[100] = {};
+	//sprintf_s(command, "mode con: cols=%d lines=%d | title %s", SCREEN_X, SCREEN_Y, TITLE);
+	//system(command);
 
 	// 화면 지울 때 사용할 버퍼 초기화.
 	// 1. 버퍼 크기 할당.

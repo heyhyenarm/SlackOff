@@ -195,6 +195,7 @@
   <ItemGroup>
     <ClInclude Include="Actor\Data.h" />
     <ClInclude Include="Actor\Hero.h" />
+    <ClInclude Include="Data\Images.h" />
     <ClInclude Include="Level\EndingLevel.h" />
     <ClInclude Include="Level\Enums.h" />
     <ClInclude Include="Level\Game.h" />

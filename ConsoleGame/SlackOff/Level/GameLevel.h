@@ -13,7 +13,7 @@ class GameLevel : public Level
 
 public:
 	explicit GameLevel(std::wstring image);
-	explicit GameLevel(std::wstring directory, FILE* file);
+	//explicit GameLevel(std::wstring directory, FILE* file);
 	~GameLevel();
 	
 	virtual void Update(float deltaTime) override;

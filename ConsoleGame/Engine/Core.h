@@ -6,6 +6,7 @@
 #include <tchar.h>
 #include <string>
 #include <locale>
+#include <vector>
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -216,6 +217,7 @@ enum class LogCategoryType
 //	std::cout << buffer;
 //}
 
+// 콘솔 출력 함수. 
 template<typename... T>
 void Log(LogCategoryType category, const wchar_t* logTemp, T&&... args)
 {
@@ -253,6 +255,66 @@ inline void ClearLogLine(const char* emptyBuffer)
 	printf(emptyBuffer);
 }
 
+// 랜덤 함수. 
+inline int Random(int min, int max)
+{
+	int diff = (max - min) - 1;
+	return (diff * rand()) / (RAND_MAX + 1) + min;
+}
+
+//// Todo: 벡터의 랜덤 함수. 
+//const std::vector<int> RandomVector(std::vector<int>& list)
+//{
+//	// 비어있을 경우. 
+//	if (list.empty())
+//	{
+//		std::cout << "vector is empty, cannot RandomVector. ";
+//		return;
+//	}
+//	int count = (int)list.size();
+//	int randomCount = count;
+//	auto targetPos = list.begin();
+//
+//	// 배열의 수만큼 반복, 순서대로 랜덤한 인덱스를 뽑아 삽입. 
+//	while (randomCount > 0)
+//	{
+//		int randomIndex = Random(0, count - 1);
+//		auto randomValue = list.begin() + randomIndex;
+//
+//		// 대상 값을 빼내오기. 
+//		auto targetValue = list.erase(randomValue);
+//
+//		// Todo: 랜덤 방법 선택하기. 
+//		// 대상 값을 앞 혹은 뒤로 삽입하기. 
+//		bool isBack = (bool)Random(0, 1);
+//		isBack ? list.emplace_back(targetValue) : list.insert(targetPos, targetValue);
+//
+//		// 대상 값을 랜덤한 위치로 삽입하기. 
+//		//list.insert(randomValue, count, );
+//
+//		--randomCount;
+//	}
+//
+//	for (int value : list)
+//	{
+//		int temp = list[Random(0, count - 1)];
+//
+//	}
+//}
+
+// 배열 랜덤 함수. 
+template<typename T>
+inline T Rullet(const std::vector<T> list)
+{
+	int count = (int)list.size();
+
+	// 랜덤 인덱스 값 가져오기. 
+	int randomIndex = Random(0, count - 1);
+	
+
+}
+
+// 텍스트 파일을 읽어 wstring으로 반환. 
 inline std::wstring LoadFile(const std::wstring directory, FILE* file)
 {
 	//SetConsoleOutputCP(CP_UTF8);

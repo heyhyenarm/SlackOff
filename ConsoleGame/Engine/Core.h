@@ -302,17 +302,17 @@ inline int Random(int min, int max)
 //	}
 //}
 
-// 배열 랜덤 함수. 
-template<typename T>
-inline T Rullet(const std::vector<T> list)
-{
-	int count = (int)list.size();
-
-	// 랜덤 인덱스 값 가져오기. 
-	int randomIndex = Random(0, count - 1);
-	
-
-}
+//// 배열 랜덤 함수. 
+//template<typename T>
+//inline T Rullet(const std::vector<T> list)
+//{
+//	int count = (int)list.size();
+//
+//	// 랜덤 인덱스 값 가져오기. 
+//	int randomIndex = Random(0, count - 1);
+//	
+//
+//}
 
 // 텍스트 파일을 읽어 wstring으로 반환. 
 inline std::wstring LoadFile(const std::wstring directory, FILE* file)

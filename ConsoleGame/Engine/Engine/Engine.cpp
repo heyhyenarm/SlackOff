@@ -29,9 +29,9 @@ Engine::Engine()
 	SetTargetFrameRate(60.0f);
 
 	// Todo: 콘솔 크기, 제목 설정. 
-	//char command[100] = {};
-	//sprintf_s(command, "mode con: cols=%d lines=%d | title %s", SCREEN_X, SCREEN_Y, TITLE);
-	//system(command);
+	char command[100] = {};
+	sprintf_s(command, "mode con: cols=%d lines=%d", SCREEN_X, SCREEN_Y);
+	system(command);
 
 	// 화면 지울 때 사용할 버퍼 초기화.
 	// 1. 버퍼 크기 할당.
@@ -235,6 +235,28 @@ void Engine::SetCursorPosition(int x, int y)
 	static HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	COORD coord = { static_cast<short>(x), static_cast<short>(y) };
 	SetConsoleCursorPosition(handle, coord);
+}
+
+void Engine::SetTitle(const wchar_t* title)
+{
+	//SetTitle(title);
+
+	// 가상 콘솔 창 모드. 
+	system("\x1b]0;<SlackOff><ST>");
+}
+
+void Engine::SetFontSize(int fontSize)
+{
+	static CONSOLE_FONT_INFOEX fontex;
+	fontex.cbSize = sizeof(CONSOLE_FONT_INFOEX);
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	GetCurrentConsoleFontEx(hOut, 0, &fontex);
+	wcscpy_s(fontex.FaceName, L"Consolas");
+	fontex.dwFontSize.X = 0;
+	fontex.dwFontSize.Y = fontSize;
+	SetCurrentConsoleFontEx(hOut, NULL, &fontex);
+
+	std::cout << "SetFont";
 }
 
 void Engine::SetTargetFrameRate(float targetFrameRate)

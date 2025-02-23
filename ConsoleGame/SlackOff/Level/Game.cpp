@@ -4,6 +4,9 @@
 #include "GameLevel.h"
 #include "EndingLevel.h"
 #include "LoadingLevel.h"
+#include "Core.h"
+
+#define FONT_SIZE 10
 
 Game* Game::instance = nullptr;
 
@@ -11,6 +14,11 @@ Game::Game()
 	: Engine()
 {
 	instance = this;
+
+	// 콘솔 창 폰트 사이즈 설정. 
+	Engine::Get().SetFontSize(FONT_SIZE);
+	Engine::Get().SetTitle(L"Slack-Off");
+	//SetTitle(L"Slack-Off");
 
 	//Game 초기 셋팅. 타이틀 화면. 
 	nowLevelType = LevelType::TitleLevel;

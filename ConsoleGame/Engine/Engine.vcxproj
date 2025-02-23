@@ -152,7 +152,7 @@ xcopy $(OutDir)\*.lib $(SolutionDir)\Lib\ /e /y</Command>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>winmm.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <UACExecutionLevel>AsInvoker</UACExecutionLevel>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <PreBuildEvent>
       <Command>xcopy $(ProjectDir)\*.h $(SolutionDir)\Incs\ /e /y</Command>

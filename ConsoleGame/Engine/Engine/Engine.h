@@ -45,6 +45,12 @@ public:
 	void SetCursorPosition(const Vector2& position);
 	void SetCursorPosition(int x, int y);
 
+	// 콘솔 창 제목 설정. 
+	void SetTitle(const wchar_t* title);
+
+	// 콘솔 창 폰트 사이즈 설정. 
+	void SetFontSize(int fontSize);
+
 	// 화면 크기 반환 함수.
 	inline Vector2 ScreenSize() const { return screenSize; }
 

@@ -251,6 +251,26 @@ void Log(LogCategoryType category, const wchar_t* logTemp, T&&... args)
 	wprintf(ESC TEXT("%dm%s"), color, buffer);
 }
 
+template<typename... T>
+void LogAnimation(const char* logTemp, T&&... args)
+{
+	//출력 모드를 가상 터미널 시퀀스 핸들 모드로 변경.
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	DWORD dwMode = 0;
+	dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+
+	//전달받은 문자열 주소값을 버퍼에 저장.
+	char buffer[1024];
+	swprintf(buffer, sizeof(buffer), logTemp, args ...);
+
+	for (int i = 0;i < (int)sizeof(logTemp);++i)
+	{
+		std::cout << buffer[i];
+		Sleep(0.2);
+	}
+}
+
+
 inline void ClearLogLine(const char* emptyBuffer)
 {
 	printf(emptyBuffer);

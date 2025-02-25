@@ -32,6 +32,7 @@ void TitleLevel::Draw()
 	//타이틀 이미지 그려주기. 
 	Engine::Get().SetCursorPosition(0, 0);
 	Log(LogCategoryType::Logging, image.c_str());
+	//LogAnimation(image.c_str());
 }
 
 void TitleLevel::LoadImageFile(std::wstring directory)

@@ -3,20 +3,16 @@
 #include "Core.h"
 #include "Game.h"
 #include "Engine/Timer.h"
+#include "Actor/EventActor.h"
+#include "Actor/Exit.h"
+#include "Actor/Monster.h"
+#include "Actor/Ground.h"
+#include "Algorithm/AStar.h"
 
 GameLevel::GameLevel(std::wstring image)
 	: Level(), image(image)
 {
-	// 자동 진행 타이머 생성. 
-	autoTimer = new Timer(AUTO_TIME);
-	// 타이머 정지 상태 지정. 
-	autoTimer->TogglePause();
-
-	// 주인공 생성. 
-	hero = new Hero();
-
-	// 플레이어 입력 대기 상태. 
-	isWaitingPlayer = true;
+	Init();
 }
 
 GameLevel::~GameLevel()
@@ -26,6 +22,177 @@ GameLevel::~GameLevel()
 
 	delete hero;
 	hero = nullptr;
+}
+
+void GameLevel::Init()
+{
+	// 주인공 생성. 
+	hero = new Hero();
+
+	//LoadMap();
+	// @Test.
+	LoadTestMap();
+
+	// 자동 진행 타이머 생성. 
+	autoTimer = new Timer(AUTO_TIME);
+	// 타이머 정지 상태 지정. 
+	autoTimer->TogglePause();
+
+	// 플레이어 입력 대기 상태. 
+	isWaitingPlayer = true;
+}
+
+void GameLevel::LoadMap()
+{
+	FILE* file = nullptr;
+	fopen_s(&file, "../Assets/txt_map.txt", "rb");
+
+	// 파일 처리. 
+	if (file == nullptr)
+	{
+		std::cout << "맵 파일 열기 실패\n";
+		__debugbreak();
+		return;
+	}
+
+	// 파일 열기. 
+	fseek(file, 0, SEEK_END);
+	size_t readSize = ftell(file);
+	rewind(file);
+
+	// 파일 읽어 버퍼에 담기. 
+	char* buffer = new char[readSize + 1];
+	size_t bytesRead = fread(buffer, 1, readSize, file);
+
+	if (readSize != bytesRead)
+	{
+		__debugbreak();
+		return;
+	}
+
+	buffer[readSize] = '/0';
+
+	// 파일 읽기 전용 인덱스. 
+	int index = 0;
+
+	// 좌표 계산을 위한 변수 선언. 
+	int xPosition = 0;
+	int yPosition = 0;
+
+	// 파싱. 
+	// h(주인공).
+	// e(이벤트 장소). 
+	// m(몬스터).
+	// d(탈출구). 
+	// 1(벽). 
+	// .(이동 가능 영역).
+	while (index < (int)bytesRead)
+	{
+		// 한 문자씩 읽기.
+		char mapChar = buffer[index++];
+
+		// 개행 문자 처리. 
+		if (mapChar == '\n')
+		{
+			++yPosition;
+			xPosition = 0;
+			continue;
+		}
+
+		// 플레이어 시작 위치 추가. 
+		if (mapChar == 'h')
+		{
+			//startPosition.emplace_back(Vector2(xPosition, yPosition));
+			//gameMap.emplace_back(hero);
+		}
+
+		// 이벤트 장소 추가. 
+		else if (mapChar == 'e')
+		{
+			// Todo: 이벤트 액터 생성하기. 
+			//gameMap.emplace_back(new Event());
+		}
+
+		// 몬스터 추가.
+		else if (mapChar == 'm')
+		{
+			//monsterList.emplace_back(new Monster());
+			//gameMap.emplace_back(monsterList.back());
+		}
+		
+		// 탈출구 추가.
+		else if (mapChar == 'd')
+		{
+			//gameMap.emplace_back(new Exit());
+		}
+
+		// 이동 가능 영역 추가. 
+		else if (mapChar == '.')
+		{
+			//gameMap.emplace_back(new Ground());
+		}
+
+		++xPosition;
+	}
+}
+
+// @Test.
+void GameLevel::LoadTestMap()
+{
+	// 그리드 생성.
+	// 0: 이동 가능.
+	// 1: 이동 불가(장애물).
+	// 2: 시작 위치.
+	// 3: 목표 위치.
+	testMap =
+	{
+		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 1, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 4, 1 },
+		{ 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1 },
+		{ 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
+		{ 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
+		{ 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1 },
+		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1 },
+		{ 1, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 1 },
+		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+	};
+
+	// 맵에서 시작 위치 목표 위치 검색.
+	startNode = nullptr;
+	exit = nullptr;
+
+	bool initialized = false;
+	for (int y = 0; y < (int)testMap.size(); ++y)
+	{
+		for (int x = 0; x < (int)testMap[0].size(); ++x)
+		{
+			// 시작 지점.
+			if (testMap[y][x] == 2)
+			{
+				startNode = new Node(x, y);
+				testMap[y][x] = 0;
+				hero->SetPosition(Vector2(x, y));
+				continue;
+			}
+
+			// 중간 목표 지점들. 
+			if (testMap[y][x] == 3)
+			{
+				targetList.emplace_back(new Node(x, y));
+				testMap[y][x] = 0;
+				continue;
+			}
+
+			// 탈출구. 
+			if (testMap[y][x] == 4)
+			{
+				exit = new Node(x, y);
+				testMap[y][x] = 0;
+				continue;
+			}
+		}
+	}
 }
 
 void GameLevel::Start()
@@ -86,7 +253,39 @@ void GameLevel::PrintScriptHero()
 
 void GameLevel::SetAutoMode()
 {
+	// 목적지 찾기. 
+	if (nowPath.empty())
+	{
+		FindPath();
+	}
+
+	static Node* nowNode = nowPath[0];
+
 	// 주인공 랜덤 길 이동 모드. 
+	if (!nowPath.empty())
+	{
+		// 목표 위치에 도착한 경우 혹은 플레이어 대기 모드 진입 시 까지. 
+		while (!isWaitingPlayer)
+		{
+			// 주인공의 현재 위치와 노드 nowNode 위치 비교. 
+
+			// 주인공 목표 위치로 이동하기. 
+
+			// 현재 목적지가 탈출구라면 마지막 노드에 접근하면 엔딩. 
+
+			// 현재 목적지가 중간 목적지라면. 
+			// 중간 목적지 중 마지막 목적지라면 현재 길 탈출구로 지정하기. 
+
+			// 다음 중간 목적지 찾기. 
+		}
+	}
+}
+
+void GameLevel::FindPath()
+{
+	// 경로 탐색.
+	nowPath = aStar.FindPath(startNode, targetList[0], testMap);
+	targetList.erase(targetList.begin());
 }
 
 void GameLevel::PlayerCommandProcess()
@@ -148,7 +347,7 @@ void GameLevel::Update(float deltaTime)
 		// 타이머 켜기. 
 		autoTimer->TogglePause();
 		autoTimer->Update(deltaTime);
-		std::cout << autoTimer->GetTime() << "\n";
+		//std::cout << autoTimer->GetTime() << "\n";
 
 		// PlayerCommandProcess 진행. 
 		PlayerCommandProcess();

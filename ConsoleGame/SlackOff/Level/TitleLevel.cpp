@@ -6,12 +6,7 @@
 TitleLevel::TitleLevel(std::wstring titleImage)
 	: Level(), image(titleImage)
 {
-}
-
-TitleLevel::TitleLevel(const std::wstring directory, FILE* file)
-	: Level()
-{
-	image = LoadFile(directory, file);
+	//LoadImageFile(L"../Assets/Images/img_title.txt");
 }
 
 TitleLevel::~TitleLevel()
@@ -37,4 +32,9 @@ void TitleLevel::Draw()
 	//타이틀 이미지 그려주기. 
 	Engine::Get().SetCursorPosition(0, 0);
 	Log(LogCategoryType::Logging, image.c_str());
+}
+
+void TitleLevel::LoadImageFile(std::wstring directory)
+{
+	image = WLoadFile(directory);
 }

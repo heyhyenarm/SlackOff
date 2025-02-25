@@ -9,11 +9,12 @@ class TitleLevel : public Level
 
 public:
 	explicit TitleLevel(std::wstring titleImage);
-	explicit TitleLevel(std::wstring directory, FILE* file);
 	~TitleLevel();
 
 	virtual void Update(float deltaTime) override;
 	virtual void Draw() override;
+
+	void LoadImageFile(std::wstring directory);
 
 private:
 	std::wstring image;

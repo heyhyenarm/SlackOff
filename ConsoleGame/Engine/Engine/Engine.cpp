@@ -255,8 +255,6 @@ void Engine::SetFontSize(int fontSize)
 	fontex.dwFontSize.X = 0;
 	fontex.dwFontSize.Y = fontSize;
 	SetCurrentConsoleFontEx(hOut, NULL, &fontex);
-
-	std::cout << "SetFont";
 }
 
 void Engine::SetTargetFrameRate(float targetFrameRate)

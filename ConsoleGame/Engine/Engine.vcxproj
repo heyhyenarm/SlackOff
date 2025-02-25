@@ -100,7 +100,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>winmm.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <UACExecutionLevel>AsInvoker</UACExecutionLevel>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <PreBuildEvent>
       <Command>xcopy $(ProjectDir)\*.h $(SolutionDir)\Incs\ /e /y</Command>
@@ -128,7 +128,7 @@ xcopy $(OutDir)\*.lib $(SolutionDir)\Lib\ /e /y</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>winmm.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <UACExecutionLevel>AsInvoker</UACExecutionLevel>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <PreBuildEvent>
       <Command>xcopy $(ProjectDir)\*.h $(SolutionDir)\Incs\ /e /y</Command>
@@ -180,7 +180,7 @@ xcopy $(OutDir)\*.lib $(SolutionDir)\Lib\ /e /y</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>winmm.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <UACExecutionLevel>AsInvoker</UACExecutionLevel>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <PreBuildEvent>
       <Command>xcopy $(ProjectDir)\*.h $(SolutionDir)\Incs\ /e /y</Command>
@@ -192,6 +192,7 @@ xcopy $(OutDir)\*.lib $(SolutionDir)\Lib\ /e /y</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor\Actor.cpp" />
+    <ClCompile Include="Algorithm\AStar.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Timer.cpp" />
     <ClCompile Include="Level\Level.cpp" />
@@ -203,6 +204,8 @@ xcopy $(OutDir)\*.lib $(SolutionDir)\Lib\ /e /y</Command>
     <ClInclude Include="Actor\Actor.h" />
     <ClInclude Include="Actor\ImageComponent.h" />
     <ClInclude Include="Actor\TransformComponent.h" />
+    <ClInclude Include="Algorithm\AStar.h" />
+    <ClInclude Include="Algorithm\Node.h" />
     <ClInclude Include="Engine\Clock.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Timer.h" />

@@ -2,6 +2,7 @@
 
 #include "Level/Level.h"
 #include "Actor/Hero.h"
+#include "Algorithm/Node.h"
 #include <vector>
 
 #define AUTO_TIME 5
@@ -20,7 +21,16 @@ public:
 	virtual void Draw() override;
 
 private:
-	// 게임 레벨 시작 셋팅. 
+	// 게임 레벨 초기 셋팅. 
+	void Init();
+
+	// 게임 맵 불러오기. 
+	void LoadMap();
+
+	// 테스트용 게임 맵 불러오기. 
+	void LoadTestMap();
+
+	// 게임 레벨 시작. 
 	void Start();
 
 	// 플레이어 입력 요청 대기. 
@@ -34,6 +44,9 @@ private:
 	
 	// 주인공 자동 행동 모드. 
 	void SetAutoMode();
+
+	// 길 찾기. 
+	void FindPath();
 
 	// 플레이어 명령어 입력 프로세스. 
 	void PlayerCommandProcess();
@@ -51,7 +64,31 @@ private:
 	// 주인공 추가. 
 	Hero* hero;
 
+	// 주인공 시작 위치 리스트. 
+	std::vector<Node*> startPositionList;
+	Node* startNode;
+
 	// Todo: Queue로 바꾸기. 
 	// 로그 저장 리스트. 
 	std::vector<std::wstring> savedLogs;
+
+	// 게임 진행 맵. 
+	std::vector<Actor> gameMap;
+
+	// AI 몬스터. 
+	//std::vector<class Monster&> monsterList;
+
+	// AStar 객체.
+	AStar aStar;
+
+	// @Test: 테스트 맵. 
+	std::vector<std::vector<int>> testMap;
+
+	// 현재 자동 길 찾기. 
+	std::vector<Node*> nowPath;
+
+	// 탈출구를 제외한 목적지들. 
+	std::vector<Node*> targetList;
+	// 탈출구. 
+	Node* exit;
 };

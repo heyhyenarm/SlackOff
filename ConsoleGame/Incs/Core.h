@@ -7,6 +7,7 @@
 #include <string>
 #include <locale>
 #include <vector>
+#include <fstream>
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -315,12 +316,13 @@ inline int Random(int min, int max)
 //}
 
 // 텍스트 파일을 읽어 wstring으로 반환. 
-inline std::wstring LoadFile(const std::wstring directory, FILE* file)
+inline std::wstring WLoadFile(const std::wstring directory)
 {
 	//SetConsoleOutputCP(CP_UTF8);
 	//std::locale::global(std::locale(""));
 
 	//파일 불러오기.
+	FILE* file = nullptr;
 	errno_t err;
 	err = _wfopen_s(&file, directory.c_str(), TEXT("rb, ccs=UTF-8"));
 	if (err != 0)
@@ -333,20 +335,61 @@ inline std::wstring LoadFile(const std::wstring directory, FILE* file)
 		wprintf(TEXT("LoadFile Success\n"));
 
 		fseek(file, 0, SEEK_END);
-		size_t readSize = ftell(file);
+		size_t readSize = ftell(file) / sizeof(wchar_t);
 		rewind(file);
 		wchar_t* buffer = new wchar_t[readSize + 1];
+		memset(buffer, L' ', readSize);
 		size_t bytesRead = fread(buffer, 1, readSize, file);
 		buffer[readSize] = '\0';
 		std::wstring fileString;
-		while (std::fgetws(buffer, sizeof(&buffer) / sizeof(wchar_t), file))
+		return buffer;
+		//while (std::fgetws(buffer, readSize, file))
+		//{
+		//	fileString += buffer;
+		//}
+		//std::fclose(file);
+		//
+		//return fileString;
+		//printf_s(&buffer[0]);
+	}
+}
+
+inline std::string LoadFile(const std::string directory)
+{
+	FILE* file = nullptr;
+	fopen_s(&file, directory.c_str(), "rb");
+	if (file == nullptr)
+	{
+		std::cout << "맵 파일 열기 실패.\n";
+		__debugbreak();
+		//return;
+	}
+	fseek(file, 0, SEEK_END);
+
+	size_t readSize = ftell(file);
+	rewind(file);
+
+	char* buffer = new char[readSize + 1];
+	memset(buffer, ' ', readSize);
+	fread(buffer, 1, readSize, file);
+	buffer[readSize] = '\0';
+	fclose(file);
+	return buffer;
+}
+
+inline std::string LoadFileUTF(const std::string directory)
+{
+	std::ifstream file(directory);
+	std::string fileString;
+
+	if (file.is_open())
+	{
+		while (std::getline(file, fileString))
 		{
-			fileString += buffer;
+
 		}
-		std::fclose(file);
 
 		return fileString;
-		//printf_s(&buffer[0]);
 	}
 }
 

@@ -1,4 +1,4 @@
-#include "Game.h"
+ï»¿#include "Game.h"
 #include "TitleLevel.h"
 #include "LobbyLevel.h"
 #include "GameLevel.h"
@@ -6,7 +6,7 @@
 #include "LoadingLevel.h"
 #include "Core.h"
 
-#define FONT_SIZE 10
+#define FONT_SIZE 20
 
 Game* Game::instance = nullptr;
 
@@ -15,17 +15,17 @@ Game::Game()
 {
 	instance = this;
 
-	// ÄÜ¼Ö Ã¢ ÆùÆ® »çÀÌÁî ¼³Á¤. 
+	// ì½˜ì†” ì°½ í°íŠ¸ ì‚¬ì´ì¦ˆ ì„¤ì •. 
 	Engine::Get().SetFontSize(FONT_SIZE);
 	Engine::Get().SetTitle(L"Slack-Off");
 	//SetTitle(L"Slack-Off");
 
-	//Game ÃÊ±â ¼ÂÆÃ. Å¸ÀÌÆ² È­¸é. 
+	//Game ì´ˆê¸° ì…‹íŒ…. íƒ€ì´í‹€ í™”ë©´. 
 	nowLevelType = LevelType::TitleLevel;
 
-	//·¹º§µé µ¿Àû »ı¼ºÇØµÎ±â.
-	//Todo: ÀÓ½Ã ÀÌ¹ÌÁö ¹Ù²Ù±â. 
-	titleLevel = new TitleLevel(TEXT("title image. Press Spacebar.\n"));
+	//ë ˆë²¨ë“¤ ë™ì  ìƒì„±í•´ë‘ê¸°.
+	//Todo: ì„ì‹œ ì´ë¯¸ì§€ ë°”ê¾¸ê¸°. 
+	titleLevel = new TitleLevel(TEXT("title image. Press Spacebar..\n"));
 	lobbyLevel = new LobbyLevel(TEXT("lobby image. Press Spacebar.\n"));
 	gameLevel = new GameLevel(TEXT("game image. Press Spacebar.\n"));
 	endingLevel = new EndingLevel(TEXT("ending image. Press Spacebar.\n"));
@@ -44,7 +44,7 @@ void Game::LoadLevel(LevelType levelType)
 {
 	Engine::Get().ClearScreen();
 
-	//·¹º§ Å¸ÀÔ ÆÇº°. 
+	//ë ˆë²¨ íƒ€ì… íŒë³„. 
 	switch(levelType)
 	{
 	case LevelType::TitleLevel:
@@ -62,18 +62,18 @@ void Game::LoadLevel(LevelType levelType)
 	}
 	nowLevelType = levelType;
 
-	//·Îµù È­¸é ºÒ·¯¿À±â. 
+	//ë¡œë”© í™”ë©´ ë¶ˆëŸ¬ì˜¤ê¸°. 
 	Loading();
 }
 
 void Game::Loading()
 {
-	//Todo: ·Îµù. 
-	//´ë±âÁßÀÎ ·¹º§À» ÁØºñ½ÃÅ°°í, ·ÎµùÃ¢ Ãâ·Â. 
+	//Todo: ë¡œë”©. 
+	//ëŒ€ê¸°ì¤‘ì¸ ë ˆë²¨ì„ ì¤€ë¹„ì‹œí‚¤ê³ , ë¡œë”©ì°½ ì¶œë ¥. 
 	//mainLevel = loadingLevel;
 
-	//´ë±âÁßÀÎ ·¹º§ÀÌ ÁØºñ°¡ ¿Ï·áµÇ¸é Äİ¹é. 
+	//ëŒ€ê¸°ì¤‘ì¸ ë ˆë²¨ì´ ì¤€ë¹„ê°€ ì™„ë£Œë˜ë©´ ì½œë°±. 
 
-	//´ë±âÁßÀÌ´ø ·¹º§À» ¸ŞÀÎ ·¹º§·Î ´Ù½Ã ¿Ã¸®°í, ·¹º§ ºÒ·¯¿À±â. 
+	//ëŒ€ê¸°ì¤‘ì´ë˜ ë ˆë²¨ì„ ë©”ì¸ ë ˆë²¨ë¡œ ë‹¤ì‹œ ì˜¬ë¦¬ê³ , ë ˆë²¨ ë¶ˆëŸ¬ì˜¤ê¸°. 
 	mainLevel = backLevel;
 }

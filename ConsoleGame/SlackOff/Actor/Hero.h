@@ -17,6 +17,8 @@ public:
 
 	inline int GetHP() { return hp; }
 
+	void Move(Vector2 direction);
+
 	// 주인공 자동 진행 모드 메시지.  
 	void OnAutoMode();
 

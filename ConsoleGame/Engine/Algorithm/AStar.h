@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "Core.h"
+
 // 포인터 삭제 함수.
 template<typename T>
 void SafeDelete(T*& t)
@@ -15,7 +17,7 @@ void SafeDelete(T*& t)
 
 // A* 길찾기 기능 처리 클래스.
 class Node;
-class AStar
+class ENGINE_API AStar
 {
     // 이동 방향 구조체.
     struct Direction

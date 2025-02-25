@@ -3,6 +3,7 @@
 #include "Level/Level.h"
 #include "Actor/Hero.h"
 #include "Algorithm/Node.h"
+#include "Algorithm/AStar.h"
 #include <vector>
 
 #define AUTO_TIME 5
@@ -43,7 +44,7 @@ private:
 	void PrintScriptHero();
 	
 	// 주인공 자동 행동 모드. 
-	void SetAutoMode();
+	void OnAutoMode();
 
 	// 길 찾기. 
 	void FindPath();
@@ -90,5 +91,5 @@ private:
 	// 탈출구를 제외한 목적지들. 
 	std::vector<Node*> targetList;
 	// 탈출구. 
-	Node* exit;
+	Node* exitNode;
 };

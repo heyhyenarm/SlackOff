@@ -120,7 +120,7 @@ std::vector<Node*> AStar::FindPath(Node* startNode, Node* goalNode, const std::v
 
 			// 방문을 위한 이웃 노드 생성.
 			// 방문할 노드의 gCost, hCost, fCost 계산.
-			Node* neighborNode = new Node(newX, newY, currentNode);
+			Node* neighborNode = new Node(Vector2(newX, newY), currentNode);
 			neighborNode->gCost = currentNode->gCost + direction.cost;
 			neighborNode->hCost = CalculateHeuristic(neighborNode, goalNode);
 			neighborNode->fCost = neighborNode->gCost + neighborNode->hCost;
@@ -172,7 +172,7 @@ std::vector<Node*> AStar::ConstructPath(Node* goalNode)
 float AStar::CalculateHeuristic(Node* currentNode, Node* goalNode)
 {
 	// 현재 노드의 위치에서 목표 위치까지의 거리를 휴리스틱 값으로 사용.
-	Position diff = *currentNode - *goalNode;
+	Vector2 diff = *currentNode - *goalNode;
 	return static_cast<float>(std::sqrt(std::pow(diff.x, 2) + std::pow(diff.y, 2)));
 }
 

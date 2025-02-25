@@ -7,7 +7,6 @@
 #include "Actor/Exit.h"
 #include "Actor/Monster.h"
 #include "Actor/Ground.h"
-#include "Algorithm/AStar.h"
 
 GameLevel::GameLevel(std::wstring image)
 	: Level(), image(image)
@@ -160,7 +159,7 @@ void GameLevel::LoadTestMap()
 
 	// 맵에서 시작 위치 목표 위치 검색.
 	startNode = nullptr;
-	exit = nullptr;
+	exitNode = nullptr;
 
 	bool initialized = false;
 	for (int y = 0; y < (int)testMap.size(); ++y)
@@ -170,7 +169,7 @@ void GameLevel::LoadTestMap()
 			// 시작 지점.
 			if (testMap[y][x] == 2)
 			{
-				startNode = new Node(x, y);
+				startNode = new Node(Vector2(x,y));
 				testMap[y][x] = 0;
 				hero->SetPosition(Vector2(x, y));
 				continue;
@@ -179,7 +178,7 @@ void GameLevel::LoadTestMap()
 			// 중간 목표 지점들. 
 			if (testMap[y][x] == 3)
 			{
-				targetList.emplace_back(new Node(x, y));
+				targetList.emplace_back(new Node(Vector2(x, y)));
 				testMap[y][x] = 0;
 				continue;
 			}
@@ -187,7 +186,7 @@ void GameLevel::LoadTestMap()
 			// 탈출구. 
 			if (testMap[y][x] == 4)
 			{
-				exit = new Node(x, y);
+				exitNode = new Node(Vector2(x, y));
 				testMap[y][x] = 0;
 				continue;
 			}
@@ -251,15 +250,15 @@ void GameLevel::PrintScriptHero()
 {
 }
 
-void GameLevel::SetAutoMode()
+void GameLevel::OnAutoMode()
 {
-	// 목적지 찾기. 
+	// 첫 목적지 찾기. 
 	if (nowPath.empty())
 	{
 		FindPath();
 	}
 
-	static Node* nowNode = nowPath[0];
+	static auto nowNodeIter = ++nowPath.begin();
 
 	// 주인공 랜덤 길 이동 모드. 
 	if (!nowPath.empty())
@@ -268,24 +267,52 @@ void GameLevel::SetAutoMode()
 		while (!isWaitingPlayer)
 		{
 			// 주인공의 현재 위치와 노드 nowNode 위치 비교. 
+			Vector2 heroPos = hero->GetPosition();
+
+			Vector2 direction = (*nowNodeIter)->position - heroPos;
 
 			// 주인공 목표 위치로 이동하기. 
+			hero->Move(direction);
 
-			// 현재 목적지가 탈출구라면 마지막 노드에 접근하면 엔딩. 
+			// 현재 목적지가 탈출구라면 엔딩. 
+			if ((*nowNodeIter)->position == exitNode->position)
+			{
+				// 엔딩 레벨 로드하기. 
+				Game::Get().LoadLevel(LevelType::EndingLevel);
+				return;
+			}
+
+			++nowNodeIter;
 
 			// 현재 목적지가 중간 목적지라면. 
-			// 중간 목적지 중 마지막 목적지라면 현재 길 탈출구로 지정하기. 
-
-			// 다음 중간 목적지 찾기. 
+			if (nowNodeIter == nowPath.end())
+			{
+				// 중간 목적지 중 마지막 목적지라면 현재 길 탈출구로 지정하기. 
+				if (targetList.empty())
+				{
+					std::cout << "탈출구 목표 지정. \n";
+					nowPath = aStar.FindPath(new Node(hero->GetPosition()), exitNode, testMap);
+					nowNodeIter = nowPath.begin();
+				}
+				// 다음 중간 목적지 찾기. 
+				else
+				{
+					std::cout << "다음 목표 찾기.\n";
+					FindPath();
+					nowNodeIter = nowPath.begin();
+				}
+			}
 		}
 	}
 }
 
 void GameLevel::FindPath()
 {
+	auto target = targetList.begin();
+
 	// 경로 탐색.
-	nowPath = aStar.FindPath(startNode, targetList[0], testMap);
-	targetList.erase(targetList.begin());
+	nowPath = aStar.FindPath(new Node(hero->GetPosition()), *target, testMap);
+	targetList.erase(target);
 }
 
 void GameLevel::PlayerCommandProcess()
@@ -293,23 +320,26 @@ void GameLevel::PlayerCommandProcess()
 	wchar_t inputBuffer[100] = { };
 	Engine::Get().SetCursorPosition(0, 1);
 	Log(LogCategoryType::Logging, L"command : front, left, right, back\n");
-	Engine::Get().SetCursorPosition(0, 2);
-	autoTimer->TogglePause();
+	Engine::Get().SetCursorPosition(0, 3);
+	
+	// @Test: 잠시 주석
+	//autoTimer->TogglePause();
 
-	// 일정 시간동안 플레이어 입력 받음. 
-	while (!autoTimer->IsTimeOut())
-	{
-		//std::wcout << autoClock->GetDurationSeconds() << "\n";
-		std::wcin >> inputBuffer;
+	//// 일정 시간동안 플레이어 입력 받음. 
+	//while (!autoTimer->IsTimeOut())
+	//{
+	//	//std::wcout << autoClock->GetDurationSeconds() << "\n";
+	//	std::wcin >> inputBuffer;
 
-		// 명령어 판별하기. 
-		std::wstring input;
-		if (PlayerInputLog(inputBuffer, &input))
-		{
-			ManageSavedLog(input);
-		}
-	}
+	//	// 명령어 판별하기. 
+	//	std::wstring input;
+	//	if (PlayerInputLog(inputBuffer, &input))
+	//	{
+	//		ManageSavedLog(input);
+	//	}
+	//}
 	isWaitingPlayer = false;
+	OnAutoMode();
 	std::cout << "Time out\n";
 }
 

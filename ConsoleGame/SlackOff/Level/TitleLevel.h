@@ -8,7 +8,7 @@ class TitleLevel : public Level
 	RTTI_DECLARATIONS(TitleLevel, Level)
 
 public:
-	explicit TitleLevel(std::wstring titleImage);
+	explicit TitleLevel();
 	~TitleLevel();
 
 	virtual void Update(float deltaTime) override;
@@ -17,5 +17,5 @@ public:
 	void LoadImageFile(std::wstring directory);
 
 private:
-	std::wstring image;
+	std::string image;
 };

@@ -6,7 +6,7 @@
 #include "LoadingLevel.h"
 #include "Core.h"
 
-#define FONT_SIZE 20
+#define FONT_SIZE 3
 
 Game* Game::instance = nullptr;
 
@@ -25,9 +25,9 @@ Game::Game()
 
 	//레벨들 동적 생성해두기.
 	//Todo: 임시 이미지 바꾸기. 
-	titleLevel = new TitleLevel(TEXT("title image. Press Spacebar..\n"));
-	lobbyLevel = new LobbyLevel(TEXT("lobby image. Press Spacebar.\n"));
-	gameLevel = new GameLevel(TEXT("game image. Press Spacebar.\n"));
+	titleLevel = new TitleLevel();
+	lobbyLevel = new LobbyLevel();
+	gameLevel = new GameLevel();
 	endingLevel = new EndingLevel(TEXT("ending image. Press Spacebar.\n"));
 	loadingLevel = new LoadingLevel(TEXT("loading image. Press Spacebar.\n"));
 }

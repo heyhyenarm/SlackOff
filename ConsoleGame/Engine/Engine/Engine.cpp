@@ -9,8 +9,8 @@
 
 #include <time.h>
 
-#define SCREEN_X 60
-#define SCREEN_Y 40
+#define SCREEN_X 150
+#define SCREEN_Y 100
 #define TITLE "SLACK-OFF"
 
 // 스태틱 변수 초기화.
@@ -33,28 +33,28 @@ Engine::Engine()
 	sprintf_s(command, "mode con: cols=%d lines=%d", SCREEN_X, SCREEN_Y);
 	system(command);
 
-	// 화면 지울 때 사용할 버퍼 초기화.
-	// 1. 버퍼 크기 할당.
-	emptyStringBuffer = new char[(screenSize.x + 1) * screenSize.y + 1];
-
-	// 버퍼 덮어쓰기.
-	memset(emptyStringBuffer, ' ', (screenSize.x + 1) * screenSize.y + 1);
-
-	// 2. 값 할당.
-	for (int y = 0; y < screenSize.y; ++y)
-	{
-		// 각 줄 끝에 개행 문자 추가.
-		emptyStringBuffer[(y * (screenSize.x + 1)) + screenSize.x] = '\n';
-	}
-
-	// 마지막에 널 문자 추가.
-	emptyStringBuffer[(screenSize.x + 1) * screenSize.y] = '\0';
-
-	// 디버깅.
-#if _DEBUG
-	char buffer[4096];
-	strcpy_s(buffer, 4096, emptyStringBuffer);
-#endif
+//	// 화면 지울 때 사용할 버퍼 초기화.
+//	// 1. 버퍼 크기 할당.
+//	emptyStringBuffer = new char[(screenSize.x + 1) * screenSize.y + 1];
+//
+//	// 버퍼 덮어쓰기.
+//	memset(emptyStringBuffer, ' ', (screenSize.x + 1) * screenSize.y + 1);
+//
+//	// 2. 값 할당.
+//	for (int y = 0; y < screenSize.y; ++y)
+//	{
+//		// 각 줄 끝에 개행 문자 추가.
+//		emptyStringBuffer[(y * (screenSize.x + 1)) + screenSize.x] = '\n';
+//	}
+//
+//	// 마지막에 널 문자 추가.
+//	emptyStringBuffer[(screenSize.x + 1) * screenSize.y] = '\0';
+//
+//	// 디버깅.
+//#if _DEBUG
+//	char buffer[16000];
+//	strcpy_s(buffer, 16000, emptyStringBuffer);
+//#endif
 }
 
 Engine::~Engine()
@@ -66,8 +66,8 @@ Engine::~Engine()
 		mainLevel = nullptr;
 	}
 
-	// 클리어 버퍼 삭제.
-	delete[] emptyStringBuffer;
+	//// 클리어 버퍼 삭제.
+	//delete[] emptyStringBuffer;
 }
 
 void Engine::Run()

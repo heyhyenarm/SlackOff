@@ -178,45 +178,25 @@ enum class LogCategoryType
 };
 
 
-////콘솔 색상 설정.
-////로그 출력 창에 띄우기.
-//template<typename... T>
-//void Log(ELogCategory category, const char* logTemp, T&&... args)
-//{
-//	//출력 모드를 가상 터미널 시퀀스 핸들 모드로 변경.
-//	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-//	DWORD dwMode = 0;
-//	dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-//
-//	SetConsoleMode(hOut, dwMode);
-//
-//	//전달받은 문자열 주소값을 버퍼에 저장.
-//	char buffer[1024];
-//	snprintf(buffer, sizeof(buffer), logTemp, args ...);
-//	//std::cout << buffer;
-//
-//	//상세 로그 수준에 따른 출력 변화.
-//	//색 변경하기, ESC: \x1b[
-//	switch (category)
-//	{
-//	case(ELogCategory::Logging):
-//		printf_s("%s%d%s", ESC, VT_FOREGROUND_WHITE_BRIGHT, buffer);
-//		//SetColor(Color::White);
-//		break;
-//	case(ELogCategory::Warning):
-//		//std::cout << ESC << VT_FOREGROUND_YELLOW << buffer;
-//		printf_s("%s%d%s", ESC, VT_FOREGROUND_YELLOW, buffer);
-//		//SetColor(Color::Blue);
-//		break;
-//	case(ELogCategory::Error):
-//		//std::cout<< ESC << VT_FOREGROUND_RED << buffer;
-//		printf_s("%s%d%s", ESC, VT_FOREGROUND_RED, buffer);
-//		//SetColor(Color::Red);
-//		break;
-//	}
-//
-//	std::cout << buffer;
-//}
+//콘솔 색상 설정.
+//로그 출력 창에 띄우기.
+template<typename... T>
+void Log(const char* logTemp, T&&... args)
+{
+	//출력 모드를 가상 터미널 시퀀스 핸들 모드로 변경.
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	DWORD dwMode = 0;
+	dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+
+	SetConsoleMode(hOut, dwMode);
+
+	//전달받은 문자열 주소값을 버퍼에 저장.
+	char buffer[1024];
+	snprintf(buffer, sizeof(buffer), logTemp, args ...);
+	//std::cout << buffer;
+
+	std::cout << buffer;
+}
 
 // 콘솔 출력 함수. 
 template<typename... T>
@@ -280,6 +260,12 @@ inline void ClearLogLine(const char* emptyBuffer)
 inline int Random(int min, int max)
 {
 	int diff = (max - min) - 1;
+	return (diff * rand()) / (RAND_MAX + 1) + min;
+}
+
+inline float Random(float min, float max)
+{
+	float diff = (max - min) - 1;
 	return (diff * rand()) / (RAND_MAX + 1) + min;
 }
 
@@ -380,7 +366,7 @@ inline std::string LoadFile(const std::string directory)
 	fopen_s(&file, directory.c_str(), "rb");
 	if (file == nullptr)
 	{
-		std::cout << "맵 파일 열기 실패.\n";
+		std::cout << "파일 열기 실패.\n";
 		__debugbreak();
 		//return;
 	}
@@ -397,17 +383,25 @@ inline std::string LoadFile(const std::string directory)
 	return buffer;
 }
 
-inline std::string LoadFileUTF(const std::string directory)
+inline std::string LoadFileCPP(const std::string directory)
 {
 	std::ifstream file(directory);
+	if (!file)
+	{
+		std::cout << "파일 읽기 실패. \n";
+		return "";
+	}
+
 	std::string fileString;
+	std::string line;
 
 	if (file.is_open())
 	{
-		while (std::getline(file, fileString))
+		while (std::getline(file, line))
 		{
-
+			fileString += line + "\n";
 		}
+		file.close();
 
 		return fileString;
 	}

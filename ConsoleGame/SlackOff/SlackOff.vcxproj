@@ -195,6 +195,7 @@
     <ClCompile Include="Level\LobbyLevel.cpp" />
     <ClCompile Include="Level\TitleLevel.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Maze.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor\Data.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="Level\LobbyLevel.h" />
     <ClInclude Include="Level\LoadingLevel.h" />
     <ClInclude Include="Level\TitleLevel.h" />
+    <ClInclude Include="Maze.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

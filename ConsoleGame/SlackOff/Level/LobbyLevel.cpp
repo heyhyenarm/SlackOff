@@ -4,9 +4,11 @@
 #include "Game.h"
 #include <string>
 
-LobbyLevel::LobbyLevel(std::wstring image)
-	: Level(), image(image)
+LobbyLevel::LobbyLevel()
+	: Level()
 {
+	image = LoadFileCPP("../Assets/Images/img_title.txt");
+
 	Init();
 }
 
@@ -58,16 +60,15 @@ void LobbyLevel::Draw()
 
 	//로비 이미지 출력.
 	Engine::Get().SetCursorPosition(0, 0);
-	Log(LogCategoryType::Logging, image.c_str());
+	//Log(LogCategoryType::Logging, image.c_str());
+	std::cout << image;
 
+	Engine::Get().SetCursorPosition(Engine::Get().ScreenSize().x/3, Engine::Get().ScreenSize().y/5);
 
 	for (int i = 0; i < menuCount; ++i)
 	{
 		// Todo: char/wchar_t 해결하기. 
 		Log(i == currentMenuIndex ? LogCategoryType::Warning : LogCategoryType::Logging, L" %s ", menuItems[i]->menuText);
-
 	}
-
-
 }
 

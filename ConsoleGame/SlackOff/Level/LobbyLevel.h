@@ -42,7 +42,7 @@ class LobbyLevel : public Level
 	RTTI_DECLARATIONS(LobbyLevel, Level)
 	
 public:
-	explicit LobbyLevel(std::wstring image);
+	explicit LobbyLevel();
 	~LobbyLevel();
 
 	virtual void Update(float deltaTime) override; 
@@ -52,7 +52,7 @@ private:
 	void Init();
 
 private:
-	std::wstring image;
+	std::string image;
 
 	std::vector<MenuItem*> menuItems;
 

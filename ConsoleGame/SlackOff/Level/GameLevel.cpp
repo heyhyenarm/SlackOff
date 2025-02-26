@@ -8,9 +8,11 @@
 #include "Actor/Monster.h"
 #include "Actor/Ground.h"
 
-GameLevel::GameLevel(std::wstring image)
-	: Level(), image(image)
+GameLevel::GameLevel()
+	: Level()
 {
+	//image = LoadFileCPP("../Assets/Images/hero/img_hero_default.txt");
+	image = "test game";
 	Init();
 }
 
@@ -289,11 +291,11 @@ void GameLevel::OnAutoMode()
 			if ((*nowNodeIter)->position == exitNode->position)
 			{
 				// @Test: A* 출력. 
-				//aStar.DisplayGridWithPath(testMap, nowPath);
+				aStar.DisplayGridWithPath(testMap, nowPath);
+				std::cout << "Escape!\n";
 				// 엔딩 레벨 로드하기. 
-				//Sleep(1000);
-				//Game::Get().LoadLevel(LevelType::EndingLevel);
-				std::cout << "탈출구 발견!\n";
+				Sleep(1000);
+				Game::Get().LoadLevel(LevelType::EndingLevel);
 				return;
 			}
 
@@ -303,22 +305,22 @@ void GameLevel::OnAutoMode()
 			if (nowNodeIter == nowPath.end())
 			{
 				// @Test: A* 출력. 
-				//aStar.DisplayGridWithPath(testMap, nowPath);
+				aStar.DisplayGridWithPath(testMap, nowPath);
 
 				// 중간 목적지 중 마지막 목적지라면 현재 길 탈출구로 지정하기. 
 				if (targetList.empty())
 				{
-					std::cout << "탈출구 목표 지정. \n";
+					std::cout << "find exit door. \n";
 					nowPath = aStar.FindPath(new Node(hero->GetPosition()), exitNode, testMap);
 					nowNodeIter = nowPath.begin();
 				}
 				// 다음 중간 목적지 찾기. 
 				else
 				{
-					std::cout << "이벤트!";
+					std::cout << "event!";
 					// Todo: 이벤트 진행하기. 
 
-					std::cout << "다음 목표 찾기.\n";
+					std::cout << "find next target.\n";
 					FindPath();
 					nowNodeIter = nowPath.begin();
 				}
@@ -344,7 +346,7 @@ void GameLevel::PlayerCommandProcess()
 	std::thread thread1([&]()
 		{
 			char inputBuffer[100] = { };
-			Engine::Get().SetCursorPosition(0, 5);
+			//Engine::Get().SetCursorPosition(0, 5);
 			//Log(LogCategoryType::Logging, L"command : front, left, right, back\n");
 			std::cout << "command : front, left, right, back\n";
 
@@ -401,7 +403,7 @@ void GameLevel::Update(float deltaTime)
 		// 타이머 켜기. 
 		autoTimer.Update(deltaTime);
 		Engine::Get().SetCursorPosition(0, 3);
-		std::cout << AUTO_TIME - autoTimer.GetTime() << "초\n";
+		//std::cout << AUTO_TIME - autoTimer.GetTime() << "초\n";
 
 		// 플레이어 입력 대기. 
 		if (onThread)
@@ -439,6 +441,9 @@ void GameLevel::Draw()
 
 	//게임 이미지 출력하기. 
 	Engine::Get().SetCursorPosition(0, 0);
-	Log(LogCategoryType::Logging, image.c_str());
+	//Log(LogCategoryType::Logging, image.c_str());
+	std::cout << image;
+
+	//std::cout << LoadFileCPP("../Assets/Images/hero/Log/log_1.txt");
 
 }

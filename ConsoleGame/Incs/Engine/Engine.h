@@ -67,7 +67,7 @@ public:
 	bool GetKeyUp(int key);
 
 	// Get emptyStringBuffer. 
-	inline const char* GetEmptyBuffer() { return emptyStringBuffer; }
+	//inline const char* GetEmptyBuffer() { return emptyStringBuffer; }
 
 	// 엔진 종료 함수.
 	void QuitGame();
@@ -114,5 +114,5 @@ protected:
 	Vector2 screenSize;
 
 	// 화면 지울 때 사용할 버퍼(Buffer/Blob).
-	char* emptyStringBuffer = nullptr;
+	//char* emptyStringBuffer = nullptr;
 };

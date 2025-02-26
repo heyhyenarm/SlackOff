@@ -2,11 +2,14 @@
 #include "Engine/Engine.h"
 #include "Core.h"
 #include "Game.h"
+#include "Maze.h"
 
-TitleLevel::TitleLevel(std::wstring titleImage)
-	: Level(), image(titleImage)
+TitleLevel::TitleLevel()
+	: Level()
 {
-	//LoadImageFile(L"../Assets/Images/img_title.txt");
+	image = LoadFileCPP("../Assets/Images/img_title.txt");
+	Maze maze;
+	//maze.GenerateMaze(11, 11);
 }
 
 TitleLevel::~TitleLevel()
@@ -30,12 +33,13 @@ void TitleLevel::Draw()
 	Super::Draw();
 
 	//타이틀 이미지 그려주기. 
-	Engine::Get().SetCursorPosition(0, 0);
-	Log(LogCategoryType::Logging, image.c_str());
+	Engine::Get().SetCursorPosition(0, Engine::Get().ScreenSize().y/2-10);
+	std::cout << image;
+	//Log(image.c_str());
 	//LogAnimation(image.c_str());
 }
 
 void TitleLevel::LoadImageFile(std::wstring directory)
 {
-	image = WLoadFile(directory);
+	//image = WLoadFile(directory);
 }

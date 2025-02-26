@@ -15,7 +15,7 @@ class GameLevel : public Level
 	RTTI_DECLARATIONS(GameLevel, Level)
 
 public:
-	explicit GameLevel(std::wstring image);
+	explicit GameLevel();
 	//explicit GameLevel(std::wstring directory, FILE* file);
 	~GameLevel();
 	
@@ -57,7 +57,7 @@ private:
 	void ManageSavedLog(std::wstring& log);
 
 private:
-	std::wstring image;
+	std::string image;
 	int autoTime = 10;
 
 	// 플레이어 입력 대기. 

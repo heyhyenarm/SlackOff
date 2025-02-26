@@ -16,9 +16,6 @@ GameLevel::GameLevel(std::wstring image)
 
 GameLevel::~GameLevel()
 {
-	delete autoTimer;
-	autoTimer = nullptr;
-
 	delete hero;
 	hero = nullptr;
 }
@@ -31,11 +28,6 @@ void GameLevel::Init()
 	//LoadMap();
 	// @Test.
 	LoadTestMap();
-
-	// 자동 진행 타이머 생성. 
-	autoTimer = new Timer(AUTO_TIME);
-	// 타이머 정지 상태 지정. 
-	autoTimer->TogglePause();
 
 	// 플레이어 입력 대기 상태. 
 	isWaitingPlayer = true;
@@ -145,16 +137,33 @@ void GameLevel::LoadTestMap()
 	// 3: 목표 위치.
 	testMap =
 	{
-		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-		{ 1, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 1, 1 },
-		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 4, 1 },
-		{ 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1 },
-		{ 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
-		{ 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
-		{ 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1 },
-		{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1 },
-		{ 1, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 1 },
-		{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+		//{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+		//{ 1, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 1, 1 },
+		//{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 4, 1 },
+		//{ 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1 },
+		//{ 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
+		//{ 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
+		//{ 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1 },
+		//{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1 },
+		//{ 1, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 3, 0, 0, 1 },
+		//{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+
+		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+		{1, 2, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1},
+		{1, 1, 1, 0, 1, 3, 1, 0, 1, 3, 1, 1, 1, 0, 1},
+		{1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1},
+		{1, 0, 1, 1, 1, 1, 1, 3, 1, 0, 1, 1, 1, 1, 1},
+		{1, 0, 0, 0, 0, 3, 0, 0, 1, 0, 0, 0, 3, 0, 1},
+		{1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 3, 1, 0, 1},
+		{1, 0, 3, 0, 0, 0, 1, 0, 3, 0, 0, 0, 1, 0, 1},
+		{1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1},
+		{1, 0, 0, 0, 1, 0, 3, 0, 0, 0, 1, 0, 1, 0, 1},
+		{1, 1, 1, 0, 1, 1, 1, 1, 1, 3, 1, 0, 1, 0, 1},
+		{1, 0, 0, 3, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1},
+		{1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 3, 1},
+		{1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 3, 0, 0, 4, 1},
+		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+
 	};
 
 	// 맵에서 시작 위치 목표 위치 검색.
@@ -209,32 +218,32 @@ void GameLevel::Start()
 //	//return PlayerInputLog(L"input");
 //}
 
-bool GameLevel::PlayerInputLog(std::wstring input, std::wstring* outValue)
+bool GameLevel::PlayerInputLog(std::string input, std::string* outValue)
 {
 	// 주인공에 메시지 보내기. 
 	//Todo: 입력 예외 상황 처리하기. 
-	if (input == L"front")
+	if (input == "front")
 	{
 		//주인공 앞으로 이동. 
 		std::wcout << "input front\n";
 		outValue = &input;
 		return true;
 	}
-	else if (input == L"left")
+	else if (input == "left")
 	{
 		//주인공 왼쪽으로 이동. 
 		std::wcout << "input left\n";
 		outValue = &input;
 		return true;
 	}
-	else if (input == L"right")
+	else if (input == "right")
 	{
 		//주인공 오른쪽으로 이동. 
 		std::wcout << "input right\n";
 		outValue = &input;
 		return true;
 	}
-	else if (input == L"back")
+	else if (input == "back")
 	{
 		//주인공 뒤로 이동. 
 		std::wcout << "input back\n";
@@ -266,6 +275,8 @@ void GameLevel::OnAutoMode()
 		// 목표 위치에 도착한 경우 혹은 플레이어 대기 모드 진입 시 까지. 
 		while (!isWaitingPlayer)
 		{
+			Sleep(1000);
+
 			// 주인공의 현재 위치와 노드 nowNode 위치 비교. 
 			Vector2 heroPos = hero->GetPosition();
 
@@ -277,8 +288,12 @@ void GameLevel::OnAutoMode()
 			// 현재 목적지가 탈출구라면 엔딩. 
 			if ((*nowNodeIter)->position == exitNode->position)
 			{
+				// @Test: A* 출력. 
+				//aStar.DisplayGridWithPath(testMap, nowPath);
 				// 엔딩 레벨 로드하기. 
-				Game::Get().LoadLevel(LevelType::EndingLevel);
+				//Sleep(1000);
+				//Game::Get().LoadLevel(LevelType::EndingLevel);
+				std::cout << "탈출구 발견!\n";
 				return;
 			}
 
@@ -287,6 +302,9 @@ void GameLevel::OnAutoMode()
 			// 현재 목적지가 중간 목적지라면. 
 			if (nowNodeIter == nowPath.end())
 			{
+				// @Test: A* 출력. 
+				//aStar.DisplayGridWithPath(testMap, nowPath);
+
 				// 중간 목적지 중 마지막 목적지라면 현재 길 탈출구로 지정하기. 
 				if (targetList.empty())
 				{
@@ -297,6 +315,9 @@ void GameLevel::OnAutoMode()
 				// 다음 중간 목적지 찾기. 
 				else
 				{
+					std::cout << "이벤트!";
+					// Todo: 이벤트 진행하기. 
+
 					std::cout << "다음 목표 찾기.\n";
 					FindPath();
 					nowNodeIter = nowPath.begin();
@@ -310,6 +331,9 @@ void GameLevel::FindPath()
 {
 	auto target = targetList.begin();
 
+	// 길 초기화. 
+	nowPath.clear();
+
 	// 경로 탐색.
 	nowPath = aStar.FindPath(new Node(hero->GetPosition()), *target, testMap);
 	targetList.erase(target);
@@ -317,30 +341,28 @@ void GameLevel::FindPath()
 
 void GameLevel::PlayerCommandProcess()
 {
-	wchar_t inputBuffer[100] = { };
-	Engine::Get().SetCursorPosition(0, 1);
-	Log(LogCategoryType::Logging, L"command : front, left, right, back\n");
-	Engine::Get().SetCursorPosition(0, 3);
-	
-	// @Test: 잠시 주석
-	//autoTimer->TogglePause();
+	std::thread thread1([&]()
+		{
+			char inputBuffer[100] = { };
+			Engine::Get().SetCursorPosition(0, 5);
+			//Log(LogCategoryType::Logging, L"command : front, left, right, back\n");
+			std::cout << "command : front, left, right, back\n";
 
-	//// 일정 시간동안 플레이어 입력 받음. 
-	//while (!autoTimer->IsTimeOut())
-	//{
-	//	//std::wcout << autoClock->GetDurationSeconds() << "\n";
-	//	std::wcin >> inputBuffer;
+			//Engine::Get().SetCursorPosition(0, 6);
+			// 플레이어 입력 받음. 
+			std::cin >> inputBuffer;
+			hasPlayerInput = true;
+			std::cout << inputBuffer << "\n";
 
-	//	// 명령어 판별하기. 
-	//	std::wstring input;
-	//	if (PlayerInputLog(inputBuffer, &input))
-	//	{
-	//		ManageSavedLog(input);
-	//	}
-	//}
-	isWaitingPlayer = false;
-	OnAutoMode();
-	std::cout << "Time out\n";
+			// 명령어 판별하기. 
+			std::string input;
+			if (PlayerInputLog(inputBuffer, &input))
+			{
+				//ManageSavedLog(input);
+			}
+		}
+	);
+	thread1.detach();
 }
 
 void GameLevel::ManageSavedLog(std::wstring& log)
@@ -362,6 +384,8 @@ void GameLevel::Update(float deltaTime)
 	Super::Update(deltaTime);
 
 	//Todo: 플레이어 input이 없이 일정 시간이 지나면 자동으로 주인공 스크립트 출력. 
+	// 자동 진행 타이머 생성. 
+	static Timer autoTimer(AUTO_TIME);
 
 	//Todo: 일정 시간이 지나면 자동으로 엔딩 레벨 불러오기. 
 	if (Engine::Get().GetKeyDown(VK_SPACE))
@@ -372,22 +396,41 @@ void GameLevel::Update(float deltaTime)
 	// 플레이어 명령어 대기 모드인 경우. 
 	if (isWaitingPlayer)
 	{
-		std::wcout << "isWaitingPlayer On\n";
+		//std::wcout << "isWaitingPlayer On\n";
 
 		// 타이머 켜기. 
-		autoTimer->TogglePause();
-		autoTimer->Update(deltaTime);
-		//std::cout << autoTimer->GetTime() << "\n";
+		autoTimer.Update(deltaTime);
+		Engine::Get().SetCursorPosition(0, 3);
+		std::cout << AUTO_TIME - autoTimer.GetTime() << "초\n";
 
-		// PlayerCommandProcess 진행. 
-		PlayerCommandProcess();
+		// 플레이어 입력 대기. 
+		if (onThread)
+		{
+			PlayerCommandProcess();
+			onThread = false;
+		}
+
+		// 입력 받았다면. 
+		if (hasPlayerInput)
+		{
+			Engine::Get().ClearScreen();
+			autoTimer.Reset();
+			isWaitingPlayer = true;
+			onThread = true;
+			hasPlayerInput = false;
+		}
+
+		if (autoTimer.IsTimeOut())
+		{
+			std::cout << "시간 초과. \n";
+			isWaitingPlayer = false;
+
+			Sleep(1000);
+			Engine::Get().ClearScreen();
+			OnAutoMode();
+			return;
+		}
 	}
-	
-	//if (isWaitingPlayer)
-	//{
-	//	std::wstring playerInputLog;
-	//	std::wcin >> playerInputLog;
-	//}
 }
 
 void GameLevel::Draw()
@@ -397,4 +440,5 @@ void GameLevel::Draw()
 	//게임 이미지 출력하기. 
 	Engine::Get().SetCursorPosition(0, 0);
 	Log(LogCategoryType::Logging, image.c_str());
+
 }

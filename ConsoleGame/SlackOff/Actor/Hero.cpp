@@ -21,32 +21,32 @@ void Hero::Draw()
 
 void Hero::Move(Vector2 direction)
 {
-	std::cout << "direction: " << direction.x << ", " << direction.y << "\n";
+	//std::cout << "direction: " << direction.x << ", " << direction.y << "\n";
 
 	// 상하좌우 이동. 
 	// 상. 
 	if (direction.y == 1)
 	{
-		std::cout << "auto move, up\n";
+		std::cout << "위쪽으로 갈까..\n";
 		SetPosition(Vector2(position.x, position.y + 1));
 	}
 	// 하. 
 	else if (direction.y == -1)
 	{
-		std::cout << "auto move, down\n";
+		std::cout << "아래쪽으로 갈까..\n";
 		SetPosition(Vector2(position.x, position.y - 1));
 	}
 
 	// 우. 
 	if (direction.x == 1)
 	{
-		std::cout << "auto move, right\n";
+		std::cout << "아래쪽으로 갈까..\n";
 		SetPosition(Vector2(position.x + 1, position.y));
 	}
 	// 좌. 
 	else if (direction.x == -1)
 	{
-		std::cout << "auto move, left\n";
+		std::cout << "왼쪽으로 갈까..\n";
 		SetPosition(Vector2(position.x - 1, position.y));
 	}
 

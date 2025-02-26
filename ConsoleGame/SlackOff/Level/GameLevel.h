@@ -5,8 +5,9 @@
 #include "Algorithm/Node.h"
 #include "Algorithm/AStar.h"
 #include <vector>
+#include <thread>
 
-#define AUTO_TIME 5
+#define AUTO_TIME 5.0f
 #define MAX_LOG 5
 
 class GameLevel : public Level
@@ -38,7 +39,7 @@ private:
 	//void RequestPlayerInput();
 
 	// 플레이어 입력 이벤트. 
-	bool PlayerInputLog(std::wstring input, std::wstring* outValue);
+	bool PlayerInputLog(std::string input, std::string* outValue);
 
 	// 주인공 스크립트 출력. 
 	void PrintScriptHero();
@@ -57,10 +58,13 @@ private:
 
 private:
 	std::wstring image;
-	class Timer* autoTimer;
 	int autoTime = 10;
 
+	// 플레이어 입력 대기. 
 	bool isWaitingPlayer = false;
+	bool onThread = true;
+	// 플레이어 입력 유무. 
+	bool hasPlayerInput = false;
 
 	// 주인공 추가. 
 	Hero* hero;

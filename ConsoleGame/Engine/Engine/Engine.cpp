@@ -9,8 +9,8 @@
 
 #include <time.h>
 
-#define SCREEN_X 30
-#define SCREEN_Y 20
+#define SCREEN_X 60
+#define SCREEN_Y 40
 #define TITLE "SLACK-OFF"
 
 // 스태틱 변수 초기화.
@@ -52,8 +52,8 @@ Engine::Engine()
 
 	// 디버깅.
 #if _DEBUG
-	char buffer[2048];
-	strcpy_s(buffer, 2048, emptyStringBuffer);
+	char buffer[4096];
+	strcpy_s(buffer, 4096, emptyStringBuffer);
 #endif
 }
 

@@ -26,6 +26,10 @@ AStar::~AStar()
 
 std::vector<Node*> AStar::FindPath(Node* startNode, Node* goalNode, const std::vector<std::vector<int>>& grid)
 {
+	// 재탐색을 위한 초기화. 
+	openList.clear();
+	closedList.clear();
+
 	this->startNode = startNode;
 	this->goalNode = goalNode;
 
@@ -39,7 +43,7 @@ std::vector<Node*> AStar::FindPath(Node* startNode, Node* goalNode, const std::v
 		{ 0, 1, 1.0f }, { 0, -1, 1.0f }, { 1, 0, 1.0f }, { -1, 0, 1.0f },
 
 		// 대각선 이동.
-		{ 1, 1, 1.414f }, { 1, -1, 1.414f }, { -1, 1, 1.414f }, { -1, -1, 1.414f }
+		{ 1, 1, 2.0f }, { 1, -1, 2.0f }, { -1, 1, 2.0f }, { -1, -1, 2.0f }
 	};
 
 	// 이웃 노드 탐색 (열린 리스트가 비어 있지 않은 동안 반복).
@@ -86,7 +90,7 @@ std::vector<Node*> AStar::FindPath(Node* startNode, Node* goalNode, const std::v
 			}
 		}
 
-		if (isNodeInList)
+ 		if (isNodeInList)
 		{
 			continue;
 		}
@@ -146,7 +150,8 @@ std::vector<Node*> AStar::FindPath(Node* startNode, Node* goalNode, const std::v
 			}
 			else
 			{
-				SafeDelete(neighborNode);
+				// @Todo: 메모리 해제. 
+				//SafeDelete(neighborNode);
 			}
 		}
 	}
@@ -162,6 +167,10 @@ std::vector<Node*> AStar::ConstructPath(Node* goalNode)
 	while (currentNode != nullptr)
 	{
 		path.emplace_back(currentNode);
+		if (currentNode->parent == nullptr || (currentNode->position.x < 15 && currentNode->position.y == 15))
+		{
+			break;
+		}
 		currentNode = currentNode->parent;
 	}
 
@@ -206,7 +215,8 @@ bool AStar::HasVisited(int x, int y, float gCost)
 			else
 			{
 				openList.erase(openList.begin() + ix);
-				SafeDelete(node);
+				// @Todo: delete;
+				//SafeDelete(node);
 			}
 		}
 	}
@@ -226,7 +236,8 @@ bool AStar::HasVisited(int x, int y, float gCost)
 			else
 			{
 				closedList.erase(closedList.begin() + ix);
-				SafeDelete(node);
+				// @Todo: delete.
+				//SafeDelete(node);
 			}
 		}
 	}
@@ -243,30 +254,32 @@ bool AStar::IsDestination(const Node* node)
 
 void AStar::DisplayGridWithPath(std::vector<std::vector<int>>& grid, const std::vector<Node*>& path)
 {
+	auto display = grid;
+
 	for (const Node* node : path)
 	{
-		// 경로는 '2'로 표시.
-		grid[node->position.y][node->position.x] = 2;
+		// 경로는 '5'로 표시.
+		display[node->position.y][node->position.x] = 5;
 	}
 
-	for (int y = 0; y < grid.size(); ++y)
+	for (int y = 0; y < display.size(); ++y)
 	{
-		for (int x = 0; x < grid[0].size(); ++x)
+		for (int x = 0; x < display[0].size(); ++x)
 		{
 			// 장애물.
-			if (grid[y][x] == 1)
+			if (display[y][x] == 1)
 			{
 				std::cout << "1 ";
 			}
 
 			// 경로.
-			else if (grid[y][x] == 2)
+			else if (display[y][x] == 5)
 			{
 				std::cout << "* ";
 			}
 
 			// 빈 공간.
-			else if (grid[y][x] == 0)
+			else if (display[y][x] == 0)
 			{
 				std::cout << "0 ";
 			}
